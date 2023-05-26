@@ -24,7 +24,7 @@ jobs:
         with:
           site_name: "order-management-app"
 
-       - name: Set up Chrome
+      - name: Set up Chrome
         uses: browser-actions/setup-chrome@v1
   
       - name: Install dependencies
