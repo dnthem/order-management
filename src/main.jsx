@@ -18,6 +18,11 @@ export const STORES = {
   ITEMCOUNT: "ItemCount",
 }
 
+if (import.meta.MODE === "production") {
+  // nulltify console.log in production mode
+  console.log = () => {};
+}
+
 
 function Render (db, state = 1) {
   root.render(
