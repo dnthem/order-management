@@ -64,6 +64,7 @@ describe("Menu", () => {
 
   let browser;
   let page;
+  console.log(pageUrl);
   beforeAll(async () => {
       browser = await puppeteer.launch({
         headless: true,
