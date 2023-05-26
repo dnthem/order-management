@@ -17,7 +17,7 @@ describe('Order - Dashboard', () => {
     let totalItems = 0;
     beforeAll(async () => {
         browser = await puppeteer.launch({
-            headless: true,
+            headless: 'new',
             devtools: false,
             defaultViewport: null
         }); // error if not headless : 'old not used :
