@@ -7,5 +7,8 @@ module.exports = {
   // Changes the cache location for Puppeteer.
   cacheDirectory: join(__dirname, '.cache', 'puppeteer'),
   // Whether to run browser in headless mode.
-  headless: import.meta.env.VITE_CI,
+  launch: {
+    headless: import.meta.env.VITE_CI
+  },
+
 };

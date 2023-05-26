@@ -288,7 +288,7 @@ describe("Menu", () => {
     const cardBody = await item.$('div.card-body');
     const hideBtn = await cardBody.$('input[data-test-id="hide"]');
     await hideBtn.click();
-
+    await page.waitForTimeout(100);
     const after = await page.$$('div[data-test-id="menu-item-card"]');
     let countHidden = 0;
     for (const card of after) {
