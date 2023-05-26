@@ -15,7 +15,6 @@ describe('Orders - basic checks', () => {
 
     beforeAll(async () => {
         browser = await puppeteer.launch({
-            headless: 'new',
             devtools: false,
             defaultViewport: null
         }); // error if not headless : 'old not used :

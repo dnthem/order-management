@@ -13,7 +13,6 @@ describe("IndexedDB Pre-checks", () => {
     let page;
     beforeAll(async () => {
       browser = await puppeteer.launch({
-        headless: 'new',
         devtools: true,
         defaultViewport: false
       }); // error if not headless : 'old not used : https://github.com/ckeditor/ckeditor5/issues/14063
@@ -67,7 +66,6 @@ describe("Menu", () => {
   console.log(pageUrl);
   beforeAll(async () => {
       browser = await puppeteer.launch({
-        headless: 'new',
         devtools: true,
         defaultViewport: null
       });

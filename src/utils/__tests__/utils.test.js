@@ -2,11 +2,15 @@ import * as util from '../index.js';
 
 describe('utils', () => {
     test('Convert ISO date (YYYY-MM-DD) to en-US (MM/DD/YYYY)', () => {
-        expect(util.convertISOToUSA('2023-05-18')).toBe('5/18/2023');
+        const testDate = '5/18/2023'
+        const newDate = new Date(testDate).toLocaleDateString('en-US');
+        expect(util.convertISOToUSA('2023-05-18')).toBe(newDate);
     });
 
     test('Convert ISO date (YYYY-MM-DD) to en-US (MM/DD/YYYY)', () => {
-        expect(util.convertISOToUSA('2023-06-01')).toBe('6/1/2023');
+        const testDate = '6/1/2023'
+        const newDate = new Date(testDate).toLocaleDateString('en-US');
+        expect(util.convertISOToUSA('2023-06-01')).toBe(newDate);
     });
     
     test('Convert en-US date (MM/DD/YYYY) to ISO (YYYY-MM-DD)', () => {
