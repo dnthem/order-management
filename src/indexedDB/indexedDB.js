@@ -70,7 +70,7 @@ indexedDBController.createDB = function (indexedDB,  dbName, version = undefined
 
       sampleData['Menu'].forEach(e => menu.add(e));
 
-      if (import.meta.env.MODE !== 'development') {
+      if (import.meta.env.MODE === 'development') {
         console.log('Creating sample data');
         sampleData['OrdersV2'].forEach(e => orderV2.add(e));
         sampleData['Customers'].forEach(e => customers.add(e));
