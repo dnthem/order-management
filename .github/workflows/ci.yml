@@ -24,9 +24,6 @@ jobs:
         with:
           site_name: "order-management-app"
 
-      - name: Set up Chrome
-        uses: browser-actions/setup-chrome@v1
-  
       - name: Install dependencies
         run: npm install
 
@@ -34,4 +31,4 @@ jobs:
         env:
           VITE_CI: "new"
           VITE_PREVIEW_URL: ${{ steps.wait-for-netflify-preview.outputs.url }}
-        run: npm test
+        run: npm run test
