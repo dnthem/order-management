@@ -20,7 +20,7 @@ describe("IndexedDB Pre-checks", () => {
 
     afterAll(() => browser.close());
   
-    test('Check if indexedDB is created', async () => {
+    test('1. Check if indexedDB is created', async () => {
       const result = await page.evaluate((databaseName) => new Promise((resolve, reject) => {
         const request = window.indexedDB.open(databaseName, 1);
         request.onsuccess = () => {
@@ -32,9 +32,9 @@ describe("IndexedDB Pre-checks", () => {
     }), databaseName);
       
       expect(result).toBe(true);
-    });
+    }, 5000);
 
-    test('Check if indexedDB has corret number of stores', async () => {
+    test('2. Check if indexedDB has corret number of stores', async () => {
       
       const result = await page.evaluate(() => new Promise((resolve, reject) => {
         const request = window.indexedDB.open('ORDER_MANAGEMENT', 1);
@@ -53,7 +53,7 @@ describe("IndexedDB Pre-checks", () => {
 
     expect(result).not.toBe('Failed to open IndexedDB');
     expect(result).toBe(NUMBEROFSTORES);
-    });
+    }, 5000);
 });
 
 describe("Menu", () => {
@@ -89,7 +89,7 @@ describe("Menu", () => {
     await sidebar.click();
   }
 
-  test('Add an item to menu', async () => {
+  test('1. Add an item to menu', async () => {
 
       // Navigate to menu
       await NavigateToMenu();
@@ -110,9 +110,9 @@ describe("Menu", () => {
       const after = await page.$$('div[data-test-id="menu-item-card"]');
       expect(after.length).toBe(before.length + 1);
 
-  });
+  }, 6000);
 
-  test('Edit an item in menu', async () => {
+  test('2. Edit an item in menu', async () => {
     const before = await page.$$('div[data-test-id="menu-item-card"]');
 
     // Randomly select an item to edit
@@ -139,9 +139,9 @@ describe("Menu", () => {
 
     expect(await editedItemName.evaluate(el => el.value)).toBe('Edited');
     expect(await editedItemPrice.evaluate(el => el.value)).toBe('0');
-  });
+  }), 6000;
 
-  test('Delete an item in menu', async () => {
+  test('3. Delete an item in menu', async () => {
     // disable confirm dialog, set it to always true
     await page.evaluate(() => {
       window.confirm = () => true;
@@ -166,10 +166,10 @@ describe("Menu", () => {
     const after = await page.$$('div[data-test-id="menu-item-card"]');
     expect(after.length).toBe(before.length - 1);
 
-  });
+  }, 6000);
 
 
-  test('Hide an item in menu', async () => {
+  test('4. Hide an item in menu', async () => {
     // randomly select an item to hide
     const cards = await page.$$('div[data-test-id="menu-item-card"]');
     const randomItem = Math.floor(Math.random() * cards.length);
@@ -186,9 +186,9 @@ describe("Menu", () => {
     });
 
     expect(css.opacity).toBe('0.5');
-  });
+  }, 6000);
 
-  test('Delete all items in menu', async () => {
+  test('5. Delete all items in menu', async () => {
 
     await page.evaluate(() => {
       window.confirm = () => true;
@@ -203,9 +203,9 @@ describe("Menu", () => {
 
     const after = await page.$$('div[data-test-id="menu-item-card"]');
     expect(after.length).toBe(0);
-  });
+  }, 6000);
 
-  test('Add multiple items to menu', async () => {
+  test('6. Add multiple items to menu', async () => {
 
     const addBtn = await page.waitForSelector('button[data-test-id="add-new-item"]');
 
@@ -222,7 +222,7 @@ describe("Menu", () => {
   },3000);
 
 
-  test('hide all items in menu', async () => {
+  test('7. hide all items in menu', async () => {
     const cards = await page.$$('div[data-test-id="menu-item-card"]');
 
     let countHidden = 0;
@@ -244,7 +244,7 @@ describe("Menu", () => {
     expect(countHidden).toBe(cards.length);
   });
 
-  test('show all items in menu', async () => {
+  test('8. show all items in menu', async () => {
 
     const cards = await page.$$('div[data-test-id="menu-item-card"]');
     let countShown = 0;
@@ -267,7 +267,7 @@ describe("Menu", () => {
   });
 
 
-  test('Randomly hide an item in menu', async () => {
+  test('9. Randomly hide an item in menu', async () => {
 
     const before = await page.$$('div[data-test-id="menu-item-card"]');
     const randomItem = Math.floor(Math.random() * before.length);
@@ -290,6 +290,6 @@ describe("Menu", () => {
     }
 
     expect(countHidden).toBe(1);
-  });
+  }, 6000);
 });
   
