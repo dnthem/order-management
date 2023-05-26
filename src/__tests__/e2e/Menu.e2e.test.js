@@ -12,10 +12,7 @@ describe("IndexedDB Pre-checks", () => {
     let browser;
     let page;
     beforeAll(async () => {
-      browser = await puppeteer.launch({
-        devtools: true,
-        defaultViewport: false
-      }); // error if not headless : 'old not used : https://github.com/ckeditor/ckeditor5/issues/14063
+      browser = await puppeteer.launch(); // error if not headless : 'old not used : https://github.com/ckeditor/ckeditor5/issues/14063
       page = await browser.newPage();
 
       await page.goto(pageUrl, { waitUntil: 'networkidle0' }); 
@@ -65,18 +62,8 @@ describe("Menu", () => {
   let page;
   console.log(pageUrl);
   beforeAll(async () => {
-      browser = await puppeteer.launch({
-        devtools: true,
-        defaultViewport: null
-      });
-      
+      browser = await puppeteer.launch(); 
       page = await browser.newPage();
-
-      await page.setViewport({
-        width: 1920,
-        height: 1080
-      });
-
       // Clear indexedDB
       await page.goto('chrome://indexeddb-internals');
       await page.evaluate(() => {
@@ -87,7 +74,7 @@ describe("Menu", () => {
               console.log(e);
           }
       });
-      page.close();
+      await page.close();
       page = await browser.newPage();
       await page.goto(pageUrl, { waitUntil: 'networkidle0' }); 
       

@@ -14,10 +14,7 @@ describe('Orders - basic checks', () => {
     let page;
 
     beforeAll(async () => {
-        browser = await puppeteer.launch({
-            devtools: false,
-            defaultViewport: null
-        }); // error if not headless : 'old not used :
+        browser = await puppeteer.launch(); // error if not headless : 'old not used :
         
         page = await browser.newPage();
         
