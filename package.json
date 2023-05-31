@@ -10,7 +10,7 @@
       "**/?(*.)+(spec|test).js?(x)"
     ],
     "transform": {
-      "^.+\\.(js|jsx)$": "babel-jest"
+      "^.+\\.(jsx)$": "babel-jest"
     },
     "transformIgnorePatterns": [
       "/node_modules/"
@@ -20,8 +20,13 @@
     }
   },
   "scripts": {
+<<<<<<< Updated upstream
     "test": "jest --runInBand ",
     "teste2e": "jest src/__tests__/e2e/*",
+=======
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand",
+    "teste2e": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand src/__tests__/e2e/*",
+>>>>>>> Stashed changes
     "postbuild": "purgecss --css dist/style.css --content dist/index.html dist/assets/*.js --output dist/",
     "dev": "vite",
     "build": "vite build && npm run postbuild",

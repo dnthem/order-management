@@ -1,6 +1,11 @@
 import puppeteer from "puppeteer";
+<<<<<<< Updated upstream:src/__tests__/e2e/Orders-Dashboard.e2e.test.js
 import { pageUrl, databaseName, version, store, NUMBEROFSTORES } from "../config";
 import sampleData from "../../indexedDB/sampleData";
+=======
+import { pageUrl, NavigateTo, parseCurrency } from "../config";
+import { preview } from "vite";
+>>>>>>> Stashed changes:src/__tests__/e2e/OrdersDashboard.e2e.test.js
 // Delay function
 function delay(time) {
     return new Promise(function(resolve) { 
@@ -10,13 +15,25 @@ function delay(time) {
 
 
 describe('Order - Dashboard', () => {
-
+    let server;
     let browser;
     let page;
     let totalIncome = 0;
+<<<<<<< Updated upstream:src/__tests__/e2e/Orders-Dashboard.e2e.test.js
     let totalItems = 0;
     beforeAll(async () => {
         browser = await puppeteer.launch(); // error if not headless : 'old not used :
+=======
+    const totalOrders = 0;
+    let totalItems = 0;
+    beforeAll(async () => {
+        server = await preview({ preview : { port: 3000 }});
+        browser = await puppeteer.launch({
+            headless: false,
+            devtools: false,
+            defaultViewport: null
+        }); // error if not headless : 'old not used :
+>>>>>>> Stashed changes:src/__tests__/e2e/OrdersDashboard.e2e.test.js
         
         page = await browser.newPage();
 
@@ -34,7 +51,7 @@ describe('Order - Dashboard', () => {
         await page.goto(pageUrl, { waitUntil: 'networkidle0' });
     });
 
-    afterAll(() => browser.close());
+    afterAll(() => {browser.close(); server.httpServer.close();});
 
     async function NavigateTo(tag) {
         page.$eval(tag, el => el.click());
@@ -151,9 +168,24 @@ describe('Order - Dashboard', () => {
         const totalCustomersText = await totalCustomers.$('[data-test-id="card-info-value"]');
         const totalCustomersValue = await totalCustomersText.evaluate(el => parseInt(el.innerText));
 
+<<<<<<< Updated upstream:src/__tests__/e2e/Orders-Dashboard.e2e.test.js
         expect(totalCustomersValue).toBe(10);
         expect(totalItemsSoldValue).toBe(totalItems);
         expect(revenueValue).toBe(totalIncome);
         expect(incomeUpToDateValue).toBe(totalIncome); 
     });
 });
+=======
+
+        expect(totalCustomersValue).toBe(10);
+        expect(revenueValue).toBe(totalIncome);
+        expect(incomeUpToDateValue).toBe(totalIncome);
+
+        // Total items sold should be greater than total items because we added 10 orders with 5 items each
+        // and there exists some orders in the sample data
+        expect(totalItemsSoldValue).toBe(totalItems); 
+    },5000);
+});
+
+
+>>>>>>> Stashed changes:src/__tests__/e2e/OrdersDashboard.e2e.test.js

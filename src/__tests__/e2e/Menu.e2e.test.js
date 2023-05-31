@@ -1,6 +1,7 @@
 import puppeteer from "puppeteer";
 import { pageUrl, databaseName, version, store, NUMBEROFSTORES } from "../config";
 import sampleData from "../../indexedDB/sampleData";
+import { preview } from "vite";
 // Delay function
 function delay(time) {
   return new Promise(function(resolve) { 
@@ -9,16 +10,26 @@ function delay(time) {
 }
 
 describe("IndexedDB Pre-checks", () => {
+    let server;
     let browser;
     let page;
     beforeAll(async () => {
+<<<<<<< Updated upstream
       browser = await puppeteer.launch(); // error if not headless : 'old not used : https://github.com/ckeditor/ckeditor5/issues/14063
+=======
+      server = await preview({ preview : { port: 3000 }});
+      browser = await puppeteer.launch({
+        headless: false,
+        devtools: false,
+        defaultViewport: null
+      }); // error if not headless : 'old not used : https://github.com/ckeditor/ckeditor5/issues/14063
+>>>>>>> Stashed changes
       page = await browser.newPage();
 
       await page.goto(pageUrl, { waitUntil: 'networkidle0' }); 
     });
 
-    afterAll(() => browser.close());
+    afterAll(() => {browser.close(); server.httpServer.close();});
   
     test('1. Check if indexedDB is created', async () => {
       const result = await page.evaluate((databaseName) => new Promise((resolve, reject) => {
@@ -57,12 +68,26 @@ describe("IndexedDB Pre-checks", () => {
 });
 
 describe("Menu", () => {
+<<<<<<< Updated upstream
 
+=======
+  let server;
+>>>>>>> Stashed changes
   let browser;
   let page;
   console.log(pageUrl);
   beforeAll(async () => {
+<<<<<<< Updated upstream
       browser = await puppeteer.launch(); 
+=======
+      server = await preview({ preview : { port: 3000 }});
+      browser = await puppeteer.launch({
+        headless: false,
+        devtools: false,
+        defaultViewport: null
+      });
+      
+>>>>>>> Stashed changes
       page = await browser.newPage();
       // Clear indexedDB
       await page.goto('chrome://indexeddb-internals');
@@ -81,7 +106,7 @@ describe("Menu", () => {
 
   });
 
-  afterAll(() => browser.close());
+  afterAll(() => {browser.close(); server.httpServer.close();});
 
   async function NavigateToMenu() {
     page.$eval('#Menu', el => el.click());

@@ -1,6 +1,7 @@
 import puppeteer from "puppeteer";
 import { pageUrl, databaseName, version, store, NUMBEROFSTORES } from "../config";
 import sampleData from "../../indexedDB/sampleData";
+import { preview } from "vite";
 // Delay function
 function delay(time) {
     return new Promise(function(resolve) { 
@@ -9,19 +10,28 @@ function delay(time) {
 }
 
 describe('Orders - basic checks', () => {
-
+    let server;
     let browser;
     let page;
 
     beforeAll(async () => {
+<<<<<<< Updated upstream
         browser = await puppeteer.launch(); // error if not headless : 'old not used :
+=======
+        server = await preview({ preview : { port: 3000 }});
+        browser = await puppeteer.launch({
+            headless: false,
+            devtools: false,
+            defaultViewport: null
+        }); // error if not headless : 'old not used :
+>>>>>>> Stashed changes
         
         page = await browser.newPage();
         
         await page.goto(pageUrl, { waitUntil: 'networkidle0' });
     });
 
-    afterAll(() => browser.close());
+    afterAll(() => {browser.close(); server.httpServer.close();});
 
     async function NavigateToOrders() {
         page.$eval('#Orders', el => el.click());
