@@ -11,7 +11,7 @@ function Settings(props) {
         <div className="row">
             <Header icon={<RiSettings5Line/>} title='Settings'/>
             <aside>
-                This section allows you to save all data into a file and transfer it to different device
+                This section allows you to save all data into a file and transfer it to a different device.
             </aside>
         </div>
         <div className="row">

@@ -15,7 +15,7 @@ function ListItem(props) {
                         
                     }
                     else if (index > 3 && !showMore) {
-                        return null;
+                        return;
                     }
                     else if (index === arr.length - 1 && showMore) {
                         return (

@@ -5,10 +5,12 @@ import OrderCardV2 from "./PendingOrders/OrdersCardV2";
 import CompleteOrderList from "./CompletedOrders/CompleteOrderList";
 import UserInfoForm from "./UserInfoForm";
 import AddToOrderForm from "./AddToOrderForm/AddToOrderForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useData } from "../../customHooks/useData";
 import { dateFormat, downloadOrderFormat, getCurrentTime } from "../../utils";
 import { STORES } from "../../indexedDB/indexedDB";
+import Loader from "../../components/Loaders/Loader";
+import useLocalStorage  from "../../customHooks/useLocalStorage";
 
 function OrdersV2() {
     const [orders, setOrders] = useData({
@@ -48,11 +50,18 @@ function OrdersV2() {
         keyPath: 1,
     });
 
+    // the n-th order of the day
+    const [nthOrderOfDay, setNthOrderOfDay] = useLocalStorage('nthOrderOfDay', 0);
+
     const [customer, setCustomer] = useState(null);
     const [cart, setCart] = useState(null);
     const [orderID, setOrderID] = useState(-1);
     const [deliverDate, setDeliverDate] = useState(dateFormat());
     const [orderDate, setOrderDate] = useState(dateFormat());
+    const [notes, setNotes] = useState('');
+    const [paymentType, setPaymentType] = useState('Cash');
+
+
     const [showUserInfoForm, setShowUserInfoForm] = useState(false);
     const [showAddToOrderForm, setShowAddToOrderForm] = useState(false);
     const pending = orders.filter(order => !order.status);
@@ -67,32 +76,58 @@ function OrdersV2() {
     /**
      * Complete order, update customer order count, total spent, and update menu
      */
-    const onComplete = (id, order) => {
-        setOrders({type: 'update', indexField: STORES.ORDERSV2.keyPath, keyPath: id, newVal: {...order, status: true, completedTime: getCurrentTime()}});
+    const onComplete = async (id, order) => {
+
+        await setOrders(
+            {
+                type: 'update', 
+                indexField: STORES.ORDERSV2.keyPath, 
+                keyPath: id, 
+                newVal: {
+                    ...order, 
+                    status: true, 
+                    completedTime: getCurrentTime()
+                }
+            });
 
         const currentCustomer = customers.find(customer => customer.customerID === order.customer.customerID);
         // update customer order count
-        setCustomers({type: 'update', indexField: STORES.CUSTOMERS.keyPath, keyPath: order.customerID, newVal: {...currentCustomer, orderCount: currentCustomer.orderCount + 1, totalSpent: currentCustomer.totalSpent + order.total}});
+        await setCustomers(
+            {
+                type: 'update', 
+                indexField: STORES.CUSTOMERS.keyPath, 
+                keyPath: order.customerID, 
+                newVal: {
+                    ...currentCustomer,
+                    orderCount: currentCustomer.orderCount + 1, 
+                    totalSpent: currentCustomer.totalSpent + order.total,
+                    lastPurchase: dateFormat()
+                }
+            });
         
         // update menu
-        order.cart.forEach(item => {
-            const currentItem = menu.find(menuItem => menuItem.id === item.id);
-            setMenu({type: 'update', indexField: STORES.MENU.keyPath, keyPath: item.id, newVal: {...currentItem, Count: currentItem.Count + item.quantity}});
-        })
+        for (let i = 0; i < order.cart.length; i++) {
+            const currentItem = menu.find(item => item.id === order.cart[i].id);
+            const newVal = {
+                ...currentItem,
+                Count: currentItem.Count + order.cart[i].quantity,
+            };
+            await setMenu({type: 'update', indexField: STORES.MENU.keyPath, keyPath: currentItem.id, newVal: newVal});
+        }
 
         // update income
         const incomeData = {
             Date: new Date().toLocaleDateString("en-us"),
             Total: (income[0]?.Total??0) + order.total,
         }
-        setIncome({type: 'update', indexField: STORES.INCOME.keyPath, newVal: incomeData});
+        await setIncome({type: 'update', indexField: STORES.INCOME.keyPath, newVal: incomeData});
 
         // update item count
         const itemCountData = {
             Date: new Date().toLocaleDateString("en-us"),
             Count: (itemCount[0]?.Count??0) + order.cart.reduce((acc, item) => acc + item.quantity, 0),
         }
-        setItemCount({type: 'update', indexField: STORES.ITEMCOUNT.keyPath, newVal: itemCountData});
+        await setItemCount({type: 'update', indexField: STORES.ITEMCOUNT.keyPath, newVal: itemCountData});
 
         // update income up to date
         const newIncomeUpToDateData = {
@@ -101,7 +136,7 @@ function OrdersV2() {
             Total: (incomeUpToDate[0]?.Total??0) + order.total,
             UpdateTime: new Date().getTime(),
         }
-        setIncomeUpToDate({type: 'update', indexField: STORES.INCOMEUPTODATE.keyPath, newVal: newIncomeUpToDateData});
+        await setIncomeUpToDate({type: 'update', indexField: STORES.INCOMEUPTODATE.keyPath, newVal: newIncomeUpToDateData});
     }
 
     const onEdit = (order) => {
@@ -111,10 +146,13 @@ function OrdersV2() {
         setOrderID(order.orderID);
         setDeliverDate(order.deliverDate);
         setOrderDate(order.orderDate);
+        setNotes(order.notes);
+        setPaymentType(order.paymentType);
     }
 
     const onAddNewOrder = (newVal) => {
-        setOrders({type: 'add', indexField: STORES.ORDERSV2.keyPath, newVal: newVal});
+        setOrders({type: 'add', indexField: STORES.ORDERSV2.keyPath, newVal: {...newVal, nthOrderOfDay: nthOrderOfDay + 1}});
+        setNthOrderOfDay(nthOrderOfDay + 1);
     }
 
     const onUpdateOrder = (newVal) => { 
@@ -129,9 +167,36 @@ function OrdersV2() {
         setCustomer(customer);
     }
 
+    useEffect(() => {
+        let timeOut;
+
+
+        function refreshPageAtTime(hour, minute, second) {
+            const now = new Date();
+            const targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, minute, second);
+            let delay = targetTime - now;
+          
+            if (delay < 0) {
+              targetTime.setDate(targetTime.getDate() + 1);
+              delay = targetTime - now;
+            }
+          
+            timeOut = setTimeout(() => {
+              localStorage.setItem('nthOrderOfDay', 0);
+              location.reload();
+            }, delay);
+        }
+          
+        
+        refreshPageAtTime(0, 0, 0);
+
+        return () => {
+            clearTimeout(timeOut);
+        }
+    },[]);
+
     return ( 
         <>
-            
             {
                 showUserInfoForm && 
                 <UserInfoForm 
@@ -152,6 +217,8 @@ function OrdersV2() {
                     orderID={orderID}
                     deliverDate={deliverDate}
                     orderDate={orderDate}
+                    notes={notes}
+                    paymentType={paymentType}
                     setDeliverDate={setDeliverDate}
                     setOrderDate={setOrderDate}
                     updateCustomer={setCustomer}
@@ -206,7 +273,7 @@ function OrdersV2() {
                             pending.map((order, index) => {
                                 return <OrderCardV2 
                                 key={index} 
-                                id={order.orderID}
+                                nthOrderOfDay={order.nthOrderOfDay}
                                 order={order}
                                 onDelete={onDelete}
                                 onComplete={onComplete}

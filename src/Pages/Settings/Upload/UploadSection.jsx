@@ -35,7 +35,7 @@ function UploadSection(props) {
             const data = JSON.parse(res);
 
             const promises = [];
-            if (store??true)
+            if (!store)
             {
                 for (const store in STORES) {
                     if (STORES[store].name === STORES.ITEMCOUNT.name) continue;
@@ -70,7 +70,7 @@ function UploadSection(props) {
     return ( 
         <div className="list-group mb-5 shadow my-2 py-2">
             <h2 className="ms-4">Upload</h2>
-            <aside className="my-2 text-muted ms-4">All files in this section must be in correct format, which means only files that are downloaded from this app</aside>
+            <aside className="my-2 text-muted ms-4">All files in this section must be in the correct format, which means only files that have been downloaded from this app.</aside>
             <div className="ms-4">
                 <ListItem
                     title='All'

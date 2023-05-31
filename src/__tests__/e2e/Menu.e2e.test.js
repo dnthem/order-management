@@ -68,7 +68,11 @@ describe("IndexedDB Pre-checks", () => {
 });
 
 describe("Menu", () => {
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+  console.log = () => {};
+>>>>>>> 07d341362b119b45830011e350542baa4101b929
 
 =======
   let server;
@@ -89,6 +93,10 @@ describe("Menu", () => {
       
 >>>>>>> Stashed changes
       page = await browser.newPage();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 07d341362b119b45830011e350542baa4101b929
       // Clear indexedDB
       await page.goto('chrome://indexeddb-internals');
       await page.evaluate(() => {
@@ -146,7 +154,7 @@ describe("Menu", () => {
     const cardBody = await item.$('div.card-body');
     const editBtn = await cardBody.$('button[data-test-id="edit"]');
     await editBtn.click();
-
+    await page.waitForTimeout(200);
     const inputText = await cardBody.$('input[data-test-id="item-name"]');
     await inputText.type('Edited');
     const inputPrice = await cardBody.$('input[data-test-id="item-price"]');
@@ -154,15 +162,15 @@ describe("Menu", () => {
     await inputPrice.type('0');
     const saveBtn = await cardBody.$('button[data-test-id="save"]');
     await saveBtn.click();
-
+    await page.waitForTimeout(200);
     // Check if item is edited
     const after = await page.$$('div[data-test-id="menu-item-card"]');
     const editedItem = after[randomItem];
     const editedCardBody = await editedItem.$('div.card-body');
-    const editedItemName = await editedCardBody.$('input[data-test-id="item-name"]');
+    const editedItemName = await editedCardBody.$('span[data-test-id="item-name"]');
     const editedItemPrice = await editedCardBody.$('input[data-test-id="item-price"]');
 
-    expect(await editedItemName.evaluate(el => el.value)).toBe('Edited');
+    expect(await editedItemName.evaluate(el => el.innerText)).toBe('Edited');
     expect(await editedItemPrice.evaluate(el => el.value)).toBe('0');
   }), 6000;
 

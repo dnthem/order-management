@@ -1,17 +1,27 @@
 import puppeteer from "puppeteer";
 import { pageUrl, parseCurrency, NavigateTo } from "../config";
 import sampleData from "../../indexedDB/sampleData";
+<<<<<<< HEAD
 import { preview } from "vite";
 
 
 describe('Order Dashboard suite 2', () => {
     let server;
+=======
+
+
+
+describe('Order Dashboard suite 2', () => {
+>>>>>>> 07d341362b119b45830011e350542baa4101b929
     let browser;
     let page;
     let totalIncome = 0;
     let totalItems = 0;
     beforeAll(async () => {
+<<<<<<< HEAD
         server = await preview({ preview : { port: 3000 }});
+=======
+>>>>>>> 07d341362b119b45830011e350542baa4101b929
         browser = await puppeteer.launch({
             headless: false,
             devtools: false,
@@ -34,7 +44,11 @@ describe('Order Dashboard suite 2', () => {
         await page.goto(pageUrl, { waitUntil: 'networkidle0' });
     });
 
+<<<<<<< HEAD
     afterAll(() => {browser.close(); server.httpServer.close();});
+=======
+    afterAll(() => browser.close());
+>>>>>>> 07d341362b119b45830011e350542baa4101b929
 
     // Click add order button and add a customer 
     // and confirm

@@ -1,14 +1,24 @@
 import puppeteer from "puppeteer";
 import { pageUrl, NavigateTo, parseCurrency } from "../config";
+<<<<<<< HEAD
 import { preview } from "vite";
 
 describe('Check synchronization of the Menu on Menu and Order Pages', () => {
     let server;
+=======
+
+
+describe('Check synchronization of the Menu on Menu and Order Pages', () => {
+
+>>>>>>> 07d341362b119b45830011e350542baa4101b929
     let browser;
     let page;
 
     beforeAll(async () => {
+<<<<<<< HEAD
         server = await preview({ preview: { port: 3000}});
+=======
+>>>>>>> 07d341362b119b45830011e350542baa4101b929
         browser = await puppeteer.launch({
             headless: false,
             devtools: false,
@@ -32,7 +42,11 @@ describe('Check synchronization of the Menu on Menu and Order Pages', () => {
         await page.goto(pageUrl, { waitUntil: 'networkidle0' });
     });
 
+<<<<<<< HEAD
     afterAll(() => {browser.close(); server.httpServer.close();});
+=======
+    afterAll(() => browser.close());
+>>>>>>> 07d341362b119b45830011e350542baa4101b929
 
     async function AddCustomer(customerName, phone) {
         await page.waitForSelector('button[data-test-id="add-new-order-btn"]', {timeout: 5000});

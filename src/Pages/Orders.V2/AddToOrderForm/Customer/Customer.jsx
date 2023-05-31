@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import CustomerOrderList from './CustomerOrderList';
 import { dateFormat, dateToISO } from '../../../../utils';
 function Customer(props) {
@@ -53,7 +53,7 @@ function Customer(props) {
                             </div>
                             <div className="">
                                 <div>Notes:</div>
-                                <textarea className="w-100" style={{resize: 'none'}} value={props.notes} onChange={(e) => props.setNotes(e.target.value)}></textarea>
+                                <textarea maxLength={200} className="w-100" style={{resize: 'none'}} value={props.notes} onChange={(e) => props.setNotes(e.target.value)}></textarea>
                             </div>
                     </div>
                 

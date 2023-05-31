@@ -6,10 +6,7 @@ import { STORES } from "../../../indexedDB/indexedDB";
 function DownloadSection(props) {
     const {db} = GetDataBaseContext();
 
-    const getData = async (store) => {
-        const data = await indexedDBController.getAllDataFromStore(db, store);
-        return data;
-    }
+    const getData = async (store) =>  await indexedDBController.getAllDataFromStore(db, store);
 
     const allData = async () => {
         const income = await getData(STORES.INCOME.name);
@@ -17,14 +14,14 @@ function DownloadSection(props) {
         const orders = await getData(STORES.ORDERSV2.name);
         const customers = await getData(STORES.CUSTOMERS.name);
         const incomeUpToDate = await getData(STORES.INCOMEUPTODATE.name);
-        const data = {
+        return {
             [STORES.INCOME.name]: income,
             [STORES.MENU.name]: menu,
             [STORES.ORDERSV2.name]: orders,
             [STORES.CUSTOMERS.name]: customers,
             [STORES.INCOMEUPTODATE.name]: incomeUpToDate
         }
-        return data;
+
     }
     return ( 
         <div className="list-group mb-5 shadow my-2 py-2">

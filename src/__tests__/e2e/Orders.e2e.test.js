@@ -39,6 +39,18 @@ describe('Orders - basic checks', () => {
         await sidebar.click();
       }
 
+    // remove all orders
+    test('0. Remove all orders', async () => {
+        await NavigateToOrders();
+        await page.waitForTimeout(100);
+        const btnRemoveAllOrders = await page.$$('button[data-test-id="delete-order-btn"]');
+
+        for (let i = 0; i < btnRemoveAllOrders.length; i++) {
+            await btnRemoveAllOrders[i].click({clickCount: 2, delay: 100});
+            await page.waitForTimeout(100);
+        }
+    });
+    
     test('1. Check number of orders', async () => {
         NavigateToOrders();
         
@@ -172,7 +184,7 @@ describe('Orders - basic checks', () => {
 
         const completeOrderBtns = await page.$$('button[data-test-id="complete-order-btn"]');
         await completeOrderBtns[0].click({clickCount: 2, delay: 100});
-
+        await page.waitForTimeout(100);
         const cards = await page.$$('div[data-test-id="order-card"]');
         expect(cards.length).toBe(1);
     });

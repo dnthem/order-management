@@ -22,11 +22,15 @@
   "scripts": {
 <<<<<<< Updated upstream
     "test": "jest --runInBand ",
+<<<<<<< HEAD
     "teste2e": "jest src/__tests__/e2e/*",
 =======
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand",
     "teste2e": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand src/__tests__/e2e/*",
 >>>>>>> Stashed changes
+=======
+    "teste2e": "jest src/__tests__/e2e/* --runInBand",
+>>>>>>> 07d341362b119b45830011e350542baa4101b929
     "postbuild": "purgecss --css dist/style.css --content dist/index.html dist/assets/*.js --output dist/",
     "dev": "vite",
     "build": "vite build && npm run postbuild",

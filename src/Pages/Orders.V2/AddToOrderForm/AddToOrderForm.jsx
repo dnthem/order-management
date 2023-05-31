@@ -7,8 +7,8 @@ import { useState } from "react";
 function AddToOrderForm(props) {
     const [cart, setCart] = useState(props.cart?? []);
     const [orderID, setOrderID] = useState(props.orderID?? -1); // -1 means new order
-    const [paymentType, setPaymentType] = useState('Cash');
-    const [notes, setNotes] = useState('');
+    const [paymentType, setPaymentType] = useState(props.paymentType?? 'Cash');
+    const [notes, setNotes] = useState(props.notes?? '');
     const [orderDate, setOrderDate] = useState(props.orderDate);
     const [deliverDate, setDeliverDate] = useState(props.deliverDate);
     const customer = props.customer;

@@ -7,10 +7,11 @@ import { getTotalItemSold, getIncomeTrending, incomeChartConverter, dataConverte
 import {BsCurrencyDollar, BsFillBarChartFill} from 'react-icons/bs';
 import {RiDashboard3Line} from 'react-icons/ri';
 import { useData } from "../../customHooks/useData";
-import Loader from "../../components/Loader";
+import Loader from "../../components/Loaders/Loader";
 import { dateFormat } from "../../utils";
 import {BiTrendingUp ,BiTrendingDown} from 'react-icons/bi';
 import { STORES } from "../../indexedDB/indexedDB";
+import CustomerTable from "./CustomerTable";
 
 function Dashboard(props) {
     const [menu, ] = useData({
@@ -50,7 +51,7 @@ function Dashboard(props) {
     const incomeTrending = getIncomeTrending(income);  
     const totalItemsSold =  getTotalItemSold(menu);
     const totalCustomers = customers.length;
-    const revenueToday =   income.find(income => income.Date === dateFormat())?.Total || 0;
+    const revenueToday   =   income.find(income => income.Date === dateFormat())?.Total || 0;
 
     const incomeChart = incomeChartConverter(income);
     const menuChart = dataConverterMenu(menu);
@@ -92,13 +93,15 @@ function Dashboard(props) {
         <div className="row">
             <CardInfoDB 
             dataTestId='income-up-to-date'
-            title='Income Up to Date' value={Intl.NumberFormat('en-us',{style: 'currency', currency: 'USD'}).format(incomeUpToDate[0]?.Total??0)} icon={<BsCurrencyDollar size={30}/>}/>
+            title='Total Revenue Up to Date' value={Intl.NumberFormat('en-us',{style: 'currency', currency: 'USD'}).format(incomeUpToDate[0]?.Total??0)} icon={<BsCurrencyDollar size={30}/>}/>
 
             <CardInfoDB
             dataTestId='revenue-today'
             title={`Revenue Today ` + dateFormat()} value={Intl.NumberFormat('en-us',{style: 'currency', currency: 'USD'}).format(revenueToday)} icon={<BsCurrencyDollar size={30}/>}/>
 
-            <CardInfoDB title='Total items sold' value={Intl.NumberFormat('en-us').format(totalItemsSold)} icon={<BsFillBarChartFill size={30}/>}/>
+            <CardInfoDB
+             dataTestId='total-items-sold'
+             title='Total items sold' value={Intl.NumberFormat('en-us').format(totalItemsSold)} icon={<BsFillBarChartFill size={30}/>}/>
             <CardInfoDB
              dataTestId='total-items-sold-today'
              title='Total items sold today' value={itemCount[0]?.Count??0} icon={<BsFillBarChartFill size={30}/>}/>
@@ -133,7 +136,7 @@ function Dashboard(props) {
                 <div className="card mb-4">
                     <div className="card-header">
                         <i className="fas fa-chart-area me-1"></i>
-                        Income Chart
+                        Revenue over time
                     </div>
                     
                     <div className="card-body">
@@ -167,29 +170,7 @@ function Dashboard(props) {
                     
                 </select>
         </div>
-            <table className="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Customer Name</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Total Orders</th>
-                        <th scope="col">Total Spent</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        sortedCustomers.map(customer => (
-                            <tr key={customer.id}>
-                                <td>{customer.customerName}</td>
-                                <td>{customer.phone}</td>
-                                <td>{customer.orderCount}</td>
-                                <td>{Intl.NumberFormat('en-us',{style: 'currency', currency: 'USD'}).format(customer.totalSpent)}</td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
-
+            <CustomerTable sortedCustomers={sortedCustomers}/>
         </div>
         </> 
         

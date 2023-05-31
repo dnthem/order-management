@@ -8,12 +8,12 @@ import { dateFormat, phoneFormat } from '../../utils';
 /**
  * Function to filter the customers array based on the query
  * @param {string} query - The search query
- * @param {string} inputType - The input type to search on
+ * @param {string} searchField - The input type to search on
  * @returns {array} - The filtered array of customers
  */
-function autoComplete(customers, query, inputType) {
+function autoComplete(customers, query, searchField) {
   return customers.filter((customer) =>
-    customer[inputType].toLowerCase().includes(query.toLowerCase())
+    customer[searchField].toLowerCase().includes(query.toLowerCase())
   );
 }
 
@@ -53,7 +53,7 @@ function UserInfoForm(props) {
         phone: phoneFormat(phone),
         orderCount: 0,
         totalSpent: 0,
-        dateAdded: dateFormat(),
+        lastPurchase: '',  
       };
       // new customer
       if (customerID === -1) {
@@ -62,7 +62,9 @@ function UserInfoForm(props) {
               indexField: "customerID",
               newVal: newCustomer,
           }); 
+          newCustomer.registerationDate = dateFormat();
       }
+
       newCustomer.customerID = newCustomerID; 
       setCustomerName("");
       setPhone("");
@@ -159,27 +161,21 @@ function UserInfoForm(props) {
                 `}
 
               </style>
-              <ul 
+              <datalist 
                 data-test-id='suggestions-list'
                 className="list-group">
                 {suggestions.length > 0 &&
                   suggestions.map((suggestion) => (
-                    <li 
+                    <option 
                       className="list-group-item"
                       key={suggestion.customerID}
                       onClick={() => handleSelectSuggestion(suggestion)}
                     >
-                      <div className="row">
-                        <div className="col-6">
-                          <span>{suggestion.customerName}</span>
-                        </div>
-                        <div className="col-6">
-                          <span>{suggestion.phone}</span>
-                        </div>
-                      </div>
-                    </li>
+                      {suggestion.customerName} &nbsp;
+                      {suggestion.phone}
+                    </option>
                   ))}
-              </ul>
+              </datalist>
 
               <label htmlFor="phone" className="form-label">
               <AiOutlinePhone/> Phone

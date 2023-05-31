@@ -1,6 +1,10 @@
 import puppeteer from "puppeteer";
+<<<<<<< HEAD:src/__tests__/e2e/Orders-Dashboard.e2e.test.js
 <<<<<<< Updated upstream:src/__tests__/e2e/Orders-Dashboard.e2e.test.js
 import { pageUrl, databaseName, version, store, NUMBEROFSTORES } from "../config";
+=======
+import { pageUrl, NavigateTo, parseCurrency } from "../config";
+>>>>>>> 07d341362b119b45830011e350542baa4101b929:src/__tests__/e2e/OrdersDashboard.e2e.test.js
 import sampleData from "../../indexedDB/sampleData";
 =======
 import { pageUrl, NavigateTo, parseCurrency } from "../config";
@@ -18,8 +22,13 @@ describe('Order - Dashboard', () => {
     let server;
     let browser;
     let page;
+<<<<<<< HEAD:src/__tests__/e2e/Orders-Dashboard.e2e.test.js
     let totalIncome = 0;
 <<<<<<< Updated upstream:src/__tests__/e2e/Orders-Dashboard.e2e.test.js
+=======
+    let totalIncome = sampleData.OrdersV2.reduce((total, order) => total + order.total, 0);
+    const totalOrders = sampleData.OrdersV2.length;
+>>>>>>> 07d341362b119b45830011e350542baa4101b929:src/__tests__/e2e/OrdersDashboard.e2e.test.js
     let totalItems = 0;
     beforeAll(async () => {
         browser = await puppeteer.launch(); // error if not headless : 'old not used :
@@ -40,24 +49,13 @@ describe('Order - Dashboard', () => {
         // Clear indexedDB
         await page.goto('chrome://indexeddb-internals');
         await page.evaluate(() => {
-            try {
                 indexedDB.deleteDatabase('ORDER_MANAGEMENT');
-            } catch (e)
-            {
-                console.log(e);
-            }
         });
         
         await page.goto(pageUrl, { waitUntil: 'networkidle0' });
     });
 
     afterAll(() => {browser.close(); server.httpServer.close();});
-
-    async function NavigateTo(tag) {
-        page.$eval(tag, el => el.click());
-        const sidebar = await page.waitForSelector('#sidebarToggle');
-        await sidebar.click();
-    }
 
     // Click add order button and add a customer 
     // and confirm
@@ -107,17 +105,18 @@ describe('Order - Dashboard', () => {
             for (let j = 0; j < numberOfItems; j++) {
                 totalIncome += await addItemsToOrder(indxedList[j]);
                 totalItems++;
+                await page.waitForTimeout(100);
             }
             await addToOrder();
             await page.waitForTimeout(100);
         }
 
         const cards = await page.$$('div[data-test-id="order-card"]');
-        expect(cards.length).toBe(10);
-    }, 10000);
+        expect(cards.length).toBe(10 + totalOrders);
+    }, 20000);
 
 
-    test('2. Complete 10 orders', async () => {
+    test('2. Complete all orders', async () => {
 
         const completeOrderBtns = await page.$$('button[data-test-id="complete-order-btn"]');
         for (let i = 0; i < completeOrderBtns.length; i++) {
@@ -127,7 +126,7 @@ describe('Order - Dashboard', () => {
 
         const cards = await page.$$('div[data-test-id="order-card"]');
         const completedCards = await page.$$('li[data-test-id="completed-order-card"]');
-        expect(completedCards.length).toBe(10);
+        expect(completedCards.length).toBe(10 + totalOrders);
         expect(cards.length).toBe(0);
 
     });
@@ -137,25 +136,23 @@ describe('Order - Dashboard', () => {
         const totalIncomeElement = await page.$('[data-test-id="total-completed-orders"]');
         const totalIncomeText = await totalIncomeElement.evaluate(el => el.innerText);
         const total = parseFloat(totalIncomeText.replace('Total: $', ''));
-        console.log('Total income: ', total);
-        console.log('Total income: ', totalIncome);
         expect(total).toBe(totalIncome);
     });
 
     test('5. Check dashboard info matches testing', async () => {
-        await NavigateTo('#Dashboard');
-        await page.waitForTimeout(100);
+        await NavigateTo(page, '#Dashboard');
+        await page.waitForTimeout(200);
         
         // Get dashboard info
         // income up to date info
         const incomeUpToDate = await page.$('[data-test-id="income-up-to-date"]');
         const incomeUpToDateText = await incomeUpToDate.$('[data-test-id="card-info-value"]');
-        const incomeUpToDateValue = await incomeUpToDateText.evaluate(el => parseFloat(el.innerText.slice(1)));
+        const incomeUpToDateValue = parseCurrency(await incomeUpToDateText.evaluate(el => (el.innerText)));
 
         // revenue today info
         const revenue = await page.$('[data-test-id="revenue-today"]');
         const revenueText = await revenue.$('[data-test-id="card-info-value"]');
-        const revenueValue = await revenueText.evaluate(el => parseFloat(el.innerText.slice(1)));
+        const revenueValue = parseCurrency(await revenueText.evaluate(el => (el.innerText)));
 
         // total items sold info
         const totalItemsSold = await page.$('[data-test-id="total-items-sold-today"]');
@@ -168,6 +165,7 @@ describe('Order - Dashboard', () => {
         const totalCustomersText = await totalCustomers.$('[data-test-id="card-info-value"]');
         const totalCustomersValue = await totalCustomersText.evaluate(el => parseInt(el.innerText));
 
+<<<<<<< HEAD:src/__tests__/e2e/Orders-Dashboard.e2e.test.js
 <<<<<<< Updated upstream:src/__tests__/e2e/Orders-Dashboard.e2e.test.js
         expect(totalCustomersValue).toBe(10);
         expect(totalItemsSoldValue).toBe(totalItems);
@@ -184,8 +182,21 @@ describe('Order - Dashboard', () => {
         // Total items sold should be greater than total items because we added 10 orders with 5 items each
         // and there exists some orders in the sample data
         expect(totalItemsSoldValue).toBe(totalItems); 
+=======
+
+        expect(totalCustomersValue).toBe(10 + sampleData.Customers.length);
+        expect(revenueValue).toBe(totalIncome);
+        expect(incomeUpToDateValue).toBe(sampleData.IncomeUpToDate[0].Total + totalIncome);
+
+        // Total items sold should be greater than total items because we added 10 orders with 5 items each
+        // and there exists some orders in the sample data
+        expect(totalItemsSoldValue).toBeGreaterThan(totalItems); 
+>>>>>>> 07d341362b119b45830011e350542baa4101b929:src/__tests__/e2e/OrdersDashboard.e2e.test.js
     },5000);
 });
 
 
+<<<<<<< HEAD:src/__tests__/e2e/Orders-Dashboard.e2e.test.js
 >>>>>>> Stashed changes:src/__tests__/e2e/OrdersDashboard.e2e.test.js
+=======
+>>>>>>> 07d341362b119b45830011e350542baa4101b929:src/__tests__/e2e/OrdersDashboard.e2e.test.js
