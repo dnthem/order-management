@@ -14,16 +14,12 @@ describe("IndexedDB Pre-checks", () => {
     let browser;
     let page;
     beforeAll(async () => {
-<<<<<<< Updated upstream
-      browser = await puppeteer.launch(); // error if not headless : 'old not used : https://github.com/ckeditor/ckeditor5/issues/14063
-=======
       server = await preview({ preview : { port: 3000 }});
       browser = await puppeteer.launch({
         headless: false,
         devtools: false,
         defaultViewport: null
       }); // error if not headless : 'old not used : https://github.com/ckeditor/ckeditor5/issues/14063
->>>>>>> Stashed changes
       page = await browser.newPage();
 
       await page.goto(pageUrl, { waitUntil: 'networkidle0' }); 
@@ -68,22 +64,12 @@ describe("IndexedDB Pre-checks", () => {
 });
 
 describe("Menu", () => {
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-  console.log = () => {};
->>>>>>> 07d341362b119b45830011e350542baa4101b929
 
-=======
   let server;
->>>>>>> Stashed changes
   let browser;
   let page;
   console.log(pageUrl);
   beforeAll(async () => {
-<<<<<<< Updated upstream
-      browser = await puppeteer.launch(); 
-=======
       server = await preview({ preview : { port: 3000 }});
       browser = await puppeteer.launch({
         headless: false,
@@ -91,12 +77,7 @@ describe("Menu", () => {
         defaultViewport: null
       });
       
->>>>>>> Stashed changes
       page = await browser.newPage();
-<<<<<<< HEAD
-=======
-
->>>>>>> 07d341362b119b45830011e350542baa4101b929
       // Clear indexedDB
       await page.goto('chrome://indexeddb-internals');
       await page.evaluate(() => {

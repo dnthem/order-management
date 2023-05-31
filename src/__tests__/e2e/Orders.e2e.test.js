@@ -15,16 +15,12 @@ describe('Orders - basic checks', () => {
     let page;
 
     beforeAll(async () => {
-<<<<<<< Updated upstream
-        browser = await puppeteer.launch(); // error if not headless : 'old not used :
-=======
         server = await preview({ preview : { port: 3000 }});
         browser = await puppeteer.launch({
             headless: false,
             devtools: false,
             defaultViewport: null
         }); // error if not headless : 'old not used :
->>>>>>> Stashed changes
         
         page = await browser.newPage();
         

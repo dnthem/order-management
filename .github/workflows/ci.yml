@@ -18,28 +18,6 @@ jobs:
       - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
-<<<<<<< Updated upstream
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
-
-      - name: Waiting for 200 from the Netlify Preview
-        uses: josephduffy/wait-for-netlify-action@v1
-        id: wait-for-netflify-preview
-        with:
-          site_name: "order-management-app"
-
-      - name: set up chrome
-        uses: browser-actions/setup-chrome@latest
-        
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run unit tests
-        env:
-          VITE_CI: "new"
-          VITE_PREVIEW_URL: ${{ steps.wait-for-netflify-preview.outputs.url }}
-        run: npm run test
-=======
           node-version: 16
           
       - name: Install dependencies
@@ -59,4 +37,3 @@ jobs:
 
       - name: Test Utils
         run: npm run test Utils
->>>>>>> Stashed changes
