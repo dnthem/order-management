@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { pageUrl, NavigateTo, launchOptions, delay, parseCurrency } from "../config";
+import { NavigateTo, launchOptions, delay, parseCurrency } from "../config";
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import { preview } from 'vite';
 
@@ -7,8 +7,12 @@ describe('Promotion Tests', () => {
     let server;
     let browser;
     let page;
+
+    // random port
+    const port = Math.floor(Math.random() * 1000) + 3000;
+    const pageUrl = `http://localhost:${port}`;
     beforeAll(async () => {
-        server = await preview({ preview : { port : 3000 }});
+        server = await preview({ preview : { port }});
         browser = await puppeteer.launch(launchOptions);
         
         page = await browser.newPage();

@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { pageUrl, parseCurrency, NavigateTo, launchOptions } from "../config";
+import { parseCurrency, NavigateTo, launchOptions, delay } from "../config";
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import { preview } from 'vite';
 
@@ -9,8 +9,12 @@ describe('Order Dashboard suite 2', () => {
     let page;
     let totalIncome = 0;
 
+    // random port
+    const port = Math.floor(Math.random() * 1000) + 3000;
+    const pageUrl = `http://localhost:${port}`;
+
     beforeAll(async () => {
-        server = await preview({ preview : { port : 3000 }});
+        server = await preview({ preview : { port }});
         browser = await puppeteer.launch(launchOptions);
         
         page = await browser.newPage();
@@ -125,6 +129,7 @@ describe('Order Dashboard suite 2', () => {
         for (let i = 0; i < length; i++) {
             const newBtn = completeBtns[i];
             await newBtn.click({clickCount: 2, delay: 100});
+            await delay(100);
         }
         
         // Check if all orders are completed
@@ -138,9 +143,10 @@ describe('Order Dashboard suite 2', () => {
     test('4. Check revenue today', async () => {
         // wait for the previous caculation to finish
         // otherwise the data will be incorrect
-        await page.waitForTimeout(200);
+        await delay(100);
         // navigate to dashboard
         await NavigateTo(page, '#Dashboard');
+        await delay(100);
         // get revenue today
         const revenueTodayCard = await page.waitForSelector('div[data-test-id="revenue-today"]');
         const revenueToday = await revenueTodayCard.$('div[data-test-id="card-info-value"]');

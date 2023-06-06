@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import puppeteer from "puppeteer";
-import { pageUrl, databaseName, launchOptions, NUMBEROFSTORES, NavigateTo, delay } from "../config";
+import { launchOptions, NavigateTo, delay } from "../config";
 import sampleData from "../../indexedDB/sampleData";
 import { preview } from 'vite';
 
@@ -8,8 +8,13 @@ describe("Customer suggestion list", () => {
     let server;
     let browser;
     let page;
+
+    // random port
+    const port = Math.floor(Math.random() * 1000) + 3000;
+    const pageUrl = `http://localhost:${port}`;
+
     beforeAll(async () => {
-      server = await preview({ preview : { port : 3000 }});
+      server = await preview({ preview : { port }});
       browser = await puppeteer.launch(launchOptions); // error if not headless : 'old not used : https://github.com/ckeditor/ckeditor5/issues/14063
       page = await browser.newPage();
 

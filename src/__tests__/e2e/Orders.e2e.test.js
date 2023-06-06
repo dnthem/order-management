@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { pageUrl, launchOptions, parseCurrency } from "../config";
+import { launchOptions, parseCurrency } from "../config";
 import sampleData from "../../indexedDB/sampleData";
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import { preview } from 'vite';
@@ -15,8 +15,11 @@ describe('Orders - basic checks', () => {
     let server;
     let browser;
     let page;
+    
+    const port = 3002;
+    const pageUrl = `http://localhost:${port}`;
     beforeAll(async () => {
-        server = await preview({ preview : { port : 3000 }});
+        server = await preview({ preview : { port }});
         browser = await puppeteer.launch(launchOptions);
         
         page = await browser.newPage();
@@ -175,14 +178,15 @@ describe('Orders - basic checks', () => {
             await confirmBtn.click();
 
             // add items to order
+            await page.waitForSelector('tr[data-test-id="menu-table-card"]');
             const menuItems = await page.$$('tr[data-test-id="menu-table-card"]');
             // select random 4 items
             
             for (let j = 0; j < 4; j++) {
-                const addToOrderBtn = await menuItems[2].$('td > button[data-test-id="add-to-order-btn"]');
+                const addToOrderBtn = await menuItems[2].waitForSelector('td > button[data-test-id="add-to-order-btn"]');
                 await addToOrderBtn.click();
+                await delay(100);
             }
-            await delay(100);
             // confirm order
             const addToOrderForm = await page.waitForSelector('div[data-test-id="add-to-order-form"]');
             const confirmAddToOrderBtn = await addToOrderForm.$('button[data-test-id="add-to-order-form-btn"]');
@@ -192,7 +196,7 @@ describe('Orders - basic checks', () => {
         await page.waitForSelector('div[data-test-id="order-card"]');
         const cards = await page.$$('div[data-test-id="order-card"]');
         expect(cards.length).toBe(4);
-    },5000);
+    },8000);
 
     test('9. Remove 2 orders and expect to have 2 orders', async () => {
         await page.waitForSelector('button[data-test-id="delete-order-btn"]');
@@ -219,7 +223,7 @@ describe('Orders - basic checks', () => {
         await page.waitForSelector('li[data-test-id="completed-order-card"]');
         const completedOrders = await page.$$('li[data-test-id="completed-order-card"]');
         expect(completedOrders.length).toBe(1);
-    });
+    }, 5000);
 
     test('12. Edit order and expect to at most 2 items in the order', async () => {
         // edit order
@@ -240,5 +244,5 @@ describe('Orders - basic checks', () => {
 
         const orderItems = await page.$$('ul[data-test-id="customer-cart-list"]');
         expect(orderItems.length).toBeLessThanOrEqual(2);
-    });
+    }, 5000);
 });

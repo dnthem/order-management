@@ -4,7 +4,6 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import indexedDBController from "./indexedDB/indexedDB";
 import "./style.css";
-import { BrowserRouter } from "react-router-dom";
 
 const DB_NAME = "ORDER_MANAGEMENT";
 const root = ReactDOM.createRoot(

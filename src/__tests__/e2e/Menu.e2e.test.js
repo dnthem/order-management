@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import puppeteer from "puppeteer";
-import { pageUrl, databaseName, launchOptions, NUMBEROFSTORES } from "../config";
+import { databaseName, launchOptions, NUMBEROFSTORES } from "../config";
 import sampleData from "../../indexedDB/sampleData";
 import { preview } from 'vite';
 // Delay function
@@ -16,8 +16,12 @@ describe("Menu", () => {
   let server;
   let browser;
   let page;
+
+  const port = 3000;
+  const pageUrl = `http://localhost:${port}`;
+
   beforeAll(async () => {
-      server = await preview({ preview : { port : 3000 }});
+      server = await preview({ preview : { port }});
       browser = await puppeteer.launch(launchOptions);
       
       page = await browser.newPage();
@@ -168,7 +172,7 @@ describe("Menu", () => {
   });
 
   test('6. Add multiple items to menu', async () => {
-
+    await delay(100);
     const addBtn = await page.waitForSelector('button[data-test-id="add-new-item"]');
 
     for (let i = 0; i < 10; i++) {
@@ -177,6 +181,7 @@ describe("Menu", () => {
       await (await page.waitForSelector('input[data-test-id="new-card-item-name"]')).type('Test' + i);
       await (await page.waitForSelector('input[data-test-id="new-card-item-price"]')).type('10');
       await (await page.waitForSelector('button[data-test-id="new-item-save"]')).click();
+      await delay(100);
     }
 
     const after = await page.$$('div[data-test-id="menu-item-card"]');

@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { pageUrl, NavigateTo, parseCurrency, launchOptions } from "../config";
+import { NavigateTo, parseCurrency, launchOptions } from "../config";
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import { preview } from 'vite';
 // Delay function
@@ -18,8 +18,12 @@ describe('Order - Dashboard', () => {
     let totalItems = 0;
     let totalOrders = 0;
 
+    // random port
+    const port = Math.floor(Math.random() * 1000) + 3000;
+    const pageUrl = `http://localhost:${port}`;
+
     beforeAll(async () => {
-        server = await preview({ preview : { port : 3000 }});
+        server = await preview({ preview : { port }});
         browser = await puppeteer.launch(launchOptions);
         
         page = await browser.newPage();
@@ -82,6 +86,7 @@ describe('Order - Dashboard', () => {
         await confirmBtn.click();
     }
 
+    const nOrders = 5;
 
     test('1. Add 10 orders', async () => {
         await NavigateTo(page, '#Orders');
