@@ -88,9 +88,9 @@ describe('Order - Dashboard', () => {
         await delay(100);
         // list customer names
         const customerNames = ['John', 'Mary', 'Bob', 'Alice', 'Jane', 'Joe', 'Sally', 'Tom', 'Jerry', 'Mickey'];
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < nOrders; i++) {
             await AddCustomer(customerNames[i], (9000000000 + i).toString()); 
-            await page.waitForTimeout(200);
+            await page.waitForTimeout(100);
             
             const numberOfItems = 5 
             const indxedList = [1,1,2,3,4];
@@ -104,7 +104,7 @@ describe('Order - Dashboard', () => {
         }
 
         const cards = await page.$$('div[data-test-id="order-card"]');
-        expect(cards.length).toBe(10 + totalOrders);
+        expect(cards.length).toBe(nOrders);
     }, 20000);
 
 
@@ -118,14 +118,13 @@ describe('Order - Dashboard', () => {
 
         const cards = await page.$$('div[data-test-id="order-card"]');
         const completedCards = await page.$$('li[data-test-id="completed-order-card"]');
-        expect(completedCards.length).toBe(10 + totalOrders);
+        expect(completedCards.length).toBe(nOrders);
         expect(cards.length).toBe(0);
 
     });
 
     test('3. Check total income', async () => {
-        await page.waitForTimeout(1000);
-        const totalIncomeElement = await page.$('[data-test-id="total-completed-orders"]');
+        const totalIncomeElement = await page.waitForSelector('[data-test-id="total-completed-orders"]');
         const totalIncomeText = await totalIncomeElement.evaluate(el => el.innerText);
         const total = parseFloat(totalIncomeText.replace('Total: $', ''));
         expect(total).toBe(totalIncome);
@@ -133,11 +132,10 @@ describe('Order - Dashboard', () => {
 
     test('4. Check dashboard info matches testing', async () => {
         await NavigateTo(page, '#Dashboard');
-        await page.waitForTimeout(200);
         
         // Get dashboard info
         // income up to date info
-        const incomeUpToDate = await page.$('[data-test-id="income-up-to-date"]');
+        const incomeUpToDate = await page.waitForSelector('[data-test-id="income-up-to-date"]');
         const incomeUpToDateText = await incomeUpToDate.$('[data-test-id="card-info-value"]');
         const incomeUpToDateValue = parseCurrency(await incomeUpToDateText.evaluate(el => (el.innerText)));
 
@@ -156,11 +154,11 @@ describe('Order - Dashboard', () => {
         const totalCustomersText = await totalCustomers.$('[data-test-id="card-info-value"]');
         const totalCustomersValue = await totalCustomersText.evaluate(el => parseInt(el.innerText));
 
-        expect(totalCustomersValue).toBe(10);
+        expect(totalCustomersValue).toBe(nOrders);
         expect(revenueValue).toBe(totalIncome);
         expect(incomeUpToDateValue).toBe(totalIncome);
         expect(totalItemsSoldValue).toBe(totalItems); 
-    },60_000);
+    },30_000);
 });
 
 

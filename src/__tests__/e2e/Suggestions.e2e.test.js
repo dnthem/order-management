@@ -72,7 +72,10 @@ describe("Customer suggestion list", () => {
     }, 30_000);
 
     test("2. should suggest customer name: John Doe", async () => {
-        if (import.meta.env.VITE_SKIP_TESTS) return;
+        if (import.meta.env.VITE_SKIP_TESTS === 'true') {
+            expect(import.meta.env.VITE_SKIP_TESTS).toBe('true');
+            return;
+        };
 
         await NavigateTo(page, '#Orders');
 

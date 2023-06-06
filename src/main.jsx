@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import { BrowserRouter } from "react-router-dom";
 import indexedDBController from "./indexedDB/indexedDB";
 import "./style.css";
 import { BrowserRouter } from "react-router-dom";
@@ -10,20 +11,11 @@ const root = ReactDOM.createRoot(
   document.getElementById("root")
 );
 
-export const STORES = {
-  MENU: "Menu",
-  INCOME: "Income",
-  CUSTOMERS: "Customers",
-  ORDERSV2: "OrdersV2",
-  ITEMCOUNT: "ItemCount",
-}
-
-
-function Render (db, state = 1) {
+function Render (db) {
   root.render(
     <React.StrictMode>
       <BrowserRouter>
-        <App db={db} state={state} />
+        <App db={db} />
       </BrowserRouter>
     </React.StrictMode>
   );

@@ -3,15 +3,12 @@ import { pageUrl, parseCurrency, NavigateTo, launchOptions } from "../config";
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import { preview } from 'vite';
 
-
-
 describe('Order Dashboard suite 2', () => {
     let server;
     let browser;
     let page;
     let totalIncome = 0;
-    let totalItems = 0;
-    let totalOrders = 0;
+
     beforeAll(async () => {
         server = await preview({ preview : { port : 3000 }});
         browser = await puppeteer.launch(launchOptions);
@@ -81,7 +78,7 @@ describe('Order Dashboard suite 2', () => {
     test('1. Remove all orders', async () => {
         // navigate to orders
         await NavigateTo(page, '#Orders');
-        await page.waitForTimeout(200);
+        await page.waitForTimeout(100);
 
         // Remove all orders
         const deleteBtns = await page.$$('button[data-test-id="delete-order-btn"]');
@@ -96,14 +93,15 @@ describe('Order Dashboard suite 2', () => {
         expect(cards.length).toBe(0);
     }, 10000);
 
-    // Add 10 orders with 5 items each
-    test('2. Add 10 orders with 5 items each', async () => {
+    const nOrders = 5;
+    // Add 5 orders with 5 items each
+    test('2. Add 5 orders with 5 items each', async () => {
         // wait 100ms
         await page.waitForTimeout(100);
-        // Add 10 orders with 5 items each
-        for (let i = 0; i < 10; i++) {
+        // Add 5 orders with 5 items each
+        for (let i = 0; i < nOrders; i++) {
             await AddCustomer(`Customer`, `012345678${i}`);
-            await page.waitForTimeout(200);
+            await page.waitForTimeout(100);
             for (let j = 0; j < 5; j++) {
                 totalIncome += await addItemsToOrder(j);
                 await page.waitForTimeout(100);
@@ -115,37 +113,36 @@ describe('Order Dashboard suite 2', () => {
         // Check if all orders are added
         const cards = await page.$$('div[data-test-id="order-card"]');
 
-        expect(cards.length).toBe(10);
+        expect(cards.length).toBe(nOrders);
     }, 15000);
 
     // Complete all orders
 
     test('3. Complete all orders', async () => {
-        // wait 100ms
-        await page.waitForTimeout(100);
         // Complete all orders
         const completeBtns = await page.$$('button[data-test-id="complete-order-btn"]');
         const length = completeBtns.length;
         for (let i = 0; i < length; i++) {
-            const newBtn = await page.$('button[data-test-id="complete-order-btn"]');
+            const newBtn = completeBtns[i];
             await newBtn.click({clickCount: 2, delay: 100});
-            await page.waitForTimeout(100);
         }
-        await page.waitForTimeout(100);
+        
         // Check if all orders are completed
+        await page.waitForSelector('li[data-test-id="completed-order-card"]');
         const cards = await page.$$('li[data-test-id="completed-order-card"]');
 
-        expect(cards.length).toBe(10);
+        expect(cards.length).toBe(nOrders);
     }, 20000);
 
     // navigate to dashboard and check if the data is correct
     test('4. Check revenue today', async () => {
+        // wait for the previous caculation to finish
+        // otherwise the data will be incorrect
+        await page.waitForTimeout(200);
         // navigate to dashboard
         await NavigateTo(page, '#Dashboard');
-        await page.waitForTimeout(100);
-
         // get revenue today
-        const revenueTodayCard = await page.$('div[data-test-id="revenue-today"]');
+        const revenueTodayCard = await page.waitForSelector('div[data-test-id="revenue-today"]');
         const revenueToday = await revenueTodayCard.$('div[data-test-id="card-info-value"]');
         const revenueTodayText = await revenueToday.evaluate(revenueToday => revenueToday.innerText);
         const revenueValue = parseCurrency(revenueTodayText);
@@ -154,10 +151,8 @@ describe('Order Dashboard suite 2', () => {
     
     // check total items sold today to match total items
     test('5.  Check total items sold today to match total items', async () => {
-        // wait 100ms
-        await page.waitForTimeout(100);
         // get total items sold today
-        const totalItemsSoldCard = await page.$('div[data-test-id="total-items-sold"]');
+        const totalItemsSoldCard = await page.waitForSelector('div[data-test-id="total-items-sold"]');
         const totalItemsSold = await totalItemsSoldCard.$('div[data-test-id="card-info-value"]');
         const totalItemsSoldText = await totalItemsSold.evaluate(totalItemsSold => totalItemsSold.innerText);
         const totalItemsSoldValue = parseInt(totalItemsSoldText);

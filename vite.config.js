@@ -7,8 +7,8 @@ import mkcert from 'vite-plugin-mkcert'
 // https://vitejs.dev/config/
 export default defineConfig({
   test:  {
-    testTimeout: 60_000,
-    hookTimeout: 60_000,
+    testTimeout: 30_000,
+    hookTimeout: 30_000,
   },
   server: {
     host: true,

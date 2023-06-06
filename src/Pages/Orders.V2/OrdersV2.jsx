@@ -9,8 +9,6 @@ import { useEffect, useState } from "react";
 import { useData } from "../../customHooks/useData";
 import { dateFormat, downloadOrderFormat, getCurrentTime } from "../../utils";
 import { STORES } from "../../indexedDB/indexedDB";
-import Loader from "../../components/Loaders/Loader";
-import useLocalStorage  from "../../customHooks/useLocalStorage";
 
 function OrdersV2() {
     const [orders, setOrders] = useData({
