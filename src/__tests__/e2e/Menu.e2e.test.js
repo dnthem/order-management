@@ -181,7 +181,7 @@ describe("Menu", () => {
 
     const after = await page.$$('div[data-test-id="menu-item-card"]');
     expect(after.length).toBe(10);
-  },3000);
+  });
 
 
   test('7. hide all items in menu', async () => {

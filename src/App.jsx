@@ -4,7 +4,8 @@ import History from "./Pages/History/History";
 import Menu from "./Pages/Menu/Menu"
 import Settings from "./Pages/Settings/Settings";
 import OrdersV2 from "./Pages/Orders.V2/OrdersV2";
-
+import AppContainer from "./components/Layouts/AppContainer";
+import { Routes, Route } from "react-router-dom";
 const ctx = createContext();
 
 
@@ -12,33 +13,24 @@ export function GetDataBaseContext() {
   return useContext(ctx);
 }
 function App(props) {
-  const [db, setDB] = useState(props.db);
+  const [db, ] = useState(props.db);
   const value = { db }
 
-  const RenderOnState = () => {
-    let res;
-    switch (props.state) {
-      case 0:
-        res = <Menu/>; break;
-      case 1:
-        res= <OrdersV2/>; break;
-      case 2:
-        res = <Dashboard/>; break;
-      case 3:
-        res = <History/>; break;
-      case 4:
-        res = <Settings/>; break;
-    }
-    return res;
-  }
-
   return (
-    <ctx.Provider value={value}>
-
-      <main className="container-fluid px-4">
-        {RenderOnState()}
-      </main>
-    </ctx.Provider>
+    <AppContainer>
+      <ctx.Provider value={value}>
+        <main className="container-fluid px-4">
+        <Routes>
+              <Route path="/" element={<Menu/>} />
+              <Route path="/Menu" element={<Menu/>} />
+              <Route path="/orders" element={<OrdersV2/>} />
+              <Route path="/dashboard" element={<Dashboard/>} />
+              <Route path="/history" element={<History/>} />
+              <Route path="/settings" element={<Settings/>} />
+            </Routes>
+        </main>
+      </ctx.Provider>
+    </AppContainer>
   )
 }
 

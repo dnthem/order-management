@@ -84,6 +84,8 @@ describe('Order - Dashboard', () => {
 
 
     test('1. Add 10 orders', async () => {
+        await NavigateTo(page, '#Orders');
+        await delay(100);
         // list customer names
         const customerNames = ['John', 'Mary', 'Bob', 'Alice', 'Jane', 'Joe', 'Sally', 'Tom', 'Jerry', 'Mickey'];
         for (let i = 0; i < 10; i++) {

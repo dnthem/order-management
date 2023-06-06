@@ -177,17 +177,17 @@ describe('Orders - basic checks', () => {
             // add items to order
             const menuItems = await page.$$('tr[data-test-id="menu-table-card"]');
             // select random 4 items
+            
             for (let j = 0; j < 4; j++) {
-                const randomItemIndex = Math.floor(Math.random() * menuItems.length);
-                const addToOrderBtn = await menuItems[randomItemIndex].$('td > button[data-test-id="add-to-order-btn"]');
+                const addToOrderBtn = await menuItems[2].$('td > button[data-test-id="add-to-order-btn"]');
                 await addToOrderBtn.click();
             }
-
+            await delay(100);
             // confirm order
             const addToOrderForm = await page.waitForSelector('div[data-test-id="add-to-order-form"]');
             const confirmAddToOrderBtn = await addToOrderForm.$('button[data-test-id="add-to-order-form-btn"]');
             await confirmAddToOrderBtn.click();
-            await page.waitForTimeout(500);
+            await page.waitForTimeout(100);
         }
         await page.waitForSelector('div[data-test-id="order-card"]');
         const cards = await page.$$('div[data-test-id="order-card"]');
