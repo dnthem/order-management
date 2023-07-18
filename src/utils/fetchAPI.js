@@ -22,8 +22,7 @@ function handleErrors(status, response) {
 async function fetchTemplate (url, data, method)  {
   const headers = {
     'Content-Type': 'application/json',
-    'authorization': 'Bearer ' + localStorage.getItem('token'),
-    origin: ORIGIN,
+    'authorization': 'Bearer ' + localStorage.getItem('token')
   };
 
   const requestOptions = {
