@@ -23,7 +23,8 @@ async function fetchTemplate (url, data, method)  {
   const headers = {
     'Content-Type': 'application/json',
     'authorization': 'Bearer ' + localStorage.getItem('token'),
-    "Access-Control-Allow-Origin": ORIGIN,
+    "Origin": ORIGIN,
+
   };
 
   const requestOptions = {
