@@ -1,6 +1,6 @@
 import DeleteSection from "./Delete/DeleteSection";
 import DownloadSection from "./Download/DownloadSection";
+import UploadSection from "./Upload/UploadSection";
 import InputFile from "./InputFile";
-import ListItem from "./ListItem";
 
-export { DeleteSection, DownloadSection, InputFile, ListItem };
+export { DeleteSection, DownloadSection, InputFile, UploadSection };

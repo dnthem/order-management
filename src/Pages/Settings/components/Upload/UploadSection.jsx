@@ -1,9 +1,8 @@
 import ListItem from "../ListItem";
 import InputFile from "../InputFile";
-import indexedDBController from "../../../indexedDB/indexedDB";
-import { GetDataBaseContext } from "../../../App";
-
-import { STORES } from "../../../indexedDB/indexedDB";
+import indexedDBController from "../../../../indexedDB/indexedDB";
+import { GetDataBaseContext } from "../../../../App";
+import { STORES } from "../../../../indexedDB/indexedDB";
 
 function UploadSection(props) {
     const {db} = GetDataBaseContext();

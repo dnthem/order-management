@@ -5,7 +5,6 @@ import DownloadBtn from './DownloadBtn';
 import Header from './Header';
 import ItemCardV2 from './ItemCard_v2';
 import MenuTable from './MenuTable';
-import MenuTableCard from './MenuTableCard';
 import OrderCard from './OrderCard';
 import Loader from './Loaders/Loader';
 import SideNavFooter from './SideNavFooter/SideNavFooter';
@@ -19,7 +18,6 @@ export {
   Header,
   ItemCardV2,
   MenuTable,
-  MenuTableCard,
   OrderCard,
   Loader,
   SideNavFooter,

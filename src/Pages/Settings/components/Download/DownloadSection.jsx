@@ -1,5 +1,5 @@
 import ListItem from "../ListItem";
-import DownloadBtn from "../../../../components";
+import {DownloadBtn} from "../../../../components";
 import indexedDBController from "../../../../indexedDB/indexedDB";
 import { STORES } from "../../../../indexedDB/indexedDB";
 import { GetDataBaseContext } from "../../../../App";
