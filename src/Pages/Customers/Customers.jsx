@@ -1,12 +1,8 @@
-import { useData } from "../../customHooks/useData";
+import { useData, useToggle } from "../../customHooks";
 import { STORES } from "../../indexedDB/indexedDB";
-import CustomerTable from "./CustomerTable/CustomerTable";
-import UserInfoForm from "../Orders.V2/UserInfoForm";
-import useToggle from "../../customHooks/useToggle";
+import { CustomerTable, CustomerHeader, Select, PageLink } from "./components"
+import {UserInfoForm} from "../Orders/components";
 import { useDeferredValue, useState } from "react";
-import Select from "./Select";
-import CustomerHeader from "./CustomerHeader/CustomerHeader";
-import PageLink from "./PageLink";
 
 function Customers(props) {
   const [customers, setCustomers] = useData({

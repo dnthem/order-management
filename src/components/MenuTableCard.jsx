@@ -1,6 +1,5 @@
 import { useRef } from "react";
-
-
+import { template } from "../assets";
 function MenuTableCard(props) {
     const trRef = useRef();
     const handleOnclick = () => {
@@ -19,7 +18,7 @@ function MenuTableCard(props) {
             data-test-id="menu-table-card"
             ref={trRef}>
             <td style={{verticalAlign:'middle'}}>
-                <img loading="lazy" src={props.Photo !== undefined? URL.createObjectURL(props.Photo):'/template.jpg'} alt="" width={'100vw'} /> 
+                <img loading="lazy" src={props.Photo !== undefined? URL.createObjectURL(props.Photo):template} alt="" width={'100vw'} /> 
                 <span data-test-id="menu-table-card-name">{props.Title}</span>
             </td>
             <td

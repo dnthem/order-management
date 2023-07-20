@@ -13,7 +13,7 @@ import { API_URL } from "../constants";
  * @returns [data, updateData] - the data from the object store and a function to update the data in the object store
  *
  */
-export function useData({ store, index, keyPath, version = 1, limit = 1 }) {
+function useData({ store, index, keyPath, version = 1, limit = 1 }) {
   const [data, setData] = useState([]);
   const { db } = GetDataBaseContext();
 
@@ -182,3 +182,5 @@ export function useData({ store, index, keyPath, version = 1, limit = 1 }) {
 
   return [data, updateData];
 }
+
+export default useData;

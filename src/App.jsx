@@ -1,19 +1,10 @@
 import { createContext, useContext, useState } from "react"
-import Dashboard from "./Pages/Dashboard/Dashboard";
-import History from "./Pages/History/History";
-import Menu from "./Pages/Menu/Menu"
-import OrdersV2 from "./Pages/Orders.V2/OrdersV2";
 import { Route, Routes, Link } from "react-router-dom";
+import { Dashboard, History, Menu, Orders, LogIn, Signup, Customers } from "./Pages";
 import { FaBars } from "react-icons/fa";
-import useToggle from "./customHooks/useToggle";
-import Customers from "./Pages/Customers/Customers";
-import SideNavFooter from "./SideNavFooter/SideNavFooter";
-import SideNavMenu from "./SideNavMenu/SideNavMenu";
-import LogIn from "./Pages/User/Login";
-import Signup from "./Pages/User/Signup";
+import { useToggle } from "./customHooks";
+import { SideNavFooter, SideNavMenu } from "./components";
 const ctx = createContext();
-
-
 
 export function GetDataBaseContext() {
   return useContext(ctx);
@@ -47,7 +38,7 @@ function App(props) {
             <Routes>
               <Route path="/" element={<Menu/>} />
               <Route path="/menu" element={<Menu/>} />
-              <Route path="/orders" element={<OrdersV2/>} />
+              <Route path="/orders" element={<Orders/>} />
               <Route path="/dashboard" element={<Dashboard/>} />
               <Route path="/history" element={<History/>} />
               <Route path="/customers" element={<Customers/>} />
