@@ -1,11 +1,26 @@
 import { useLocalStorage } from "../../customHooks";
 import { Link } from "react-router-dom";
+import { STORES } from "../../indexedDB/indexedDB";
+import indexedDBController from "../../indexedDB/indexedDB";
+import { GetDataBaseContext } from "../../App";
 function SideNavFooter() {
   const [user, ] = useLocalStorage("user", null);
+  const { db } = GetDataBaseContext();
 
-  const handleLogout = () => {
+  const deleteAll = async () => {
+    const promises = [];
+
+    for (const key in STORES) {
+      promises.push(indexedDBController.deleteAllRecord(db, STORES[key].name));
+    }
+
+    await Promise.all(promises);
+  };
+
+  const handleLogout = async () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
+    await deleteAll();
     window.location.href = "/";
   }
   return ( 
