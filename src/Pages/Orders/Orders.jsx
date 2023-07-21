@@ -7,7 +7,7 @@ import { dateFormat, downloadOrderFormat, getCurrentTime } from "../../utils";
 import { STORES } from "../../indexedDB/indexedDB";
 
 
-function OrdersV2() {
+function Orders() {
   const [orders, setOrders] = useData({
     store: STORES.ORDERSV2.name,
     index: "deliverDate",
@@ -143,9 +143,11 @@ function OrdersV2() {
     }
 
     // update income
+
     const incomeData = {
       Date: new Date().toLocaleDateString("en-us"),
       Total: (income[0]?.Total ?? 0) + order.total,
+      _id: income[0]?._id ?? undefined
     };
     await setIncome({
       type: "update",
@@ -330,7 +332,7 @@ function OrdersV2() {
             {pending
               .map((order, index) => {
                 return (
-                  <OrderCardV2
+                  <OrderCard
                     key={index}
                     nthOrderOfDay={order.nthOrderOfDay}
                     order={order}
@@ -348,4 +350,4 @@ function OrdersV2() {
   );
 }
 
-export default OrdersV2;
+export default Orders;

@@ -148,7 +148,7 @@ function UserInfoForm(props) {
       <Backdrop />
       <div
         data-test-id="add-customer-form"
-        className={`col-md-5 col-xl-3 p-3 border border-5 border-` + outline}
+        className={`col-lg-4 col-sm-8 col-12 p-3 border border-5 border-` + outline}
         style={{
           borderRadius: "5px",
           position: "fixed",

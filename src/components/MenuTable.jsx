@@ -6,7 +6,10 @@ function MenuTable(props) {
     return ( 
         <table
             data-test-id="menu-table"
-            className="table">
+            className="table"
+            style={{borderCollapse: 'collapse', borderSpacing: '0'}}
+            >
+            
             <thead className="position-sticky top-0 bg-light">
                 <tr >
                     <th>Item Name</th>

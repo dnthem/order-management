@@ -3,12 +3,13 @@ import { template } from "../assets";
 function MenuTableCard(props) {
     const trRef = useRef();
     const handleOnclick = () => {
+        trRef.current.style.transition = 'background-color 0s ease-in-out';
+        trRef.current.style.backgroundColor = 'black';
 
-        trRef.current.classList.remove('fade-out');
-        trRef.current.classList.add('fade-out');
         setTimeout(() => {
-            trRef.current.classList.remove('fade-out');
-        },1000);
+            trRef.current.style.transition = 'background-color 1s ease-in-out';
+            trRef.current.style.backgroundColor = 'white';
+        },10);
 
         props.select(props.cardID);
     }

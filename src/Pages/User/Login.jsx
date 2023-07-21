@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import { fetchAPI } from "../../utils";
+import { fetchAPI, databaseDownloader } from "../../utils";
 import { useState } from "react";
-import Loader from "../../components/Loaders/Loader";
-import useLocalStorage from "../../customHooks/useLocalStorage";
+import {Loader} from "../../components";
+import {useLocalStorage} from "../../customHooks";
 import { API_URL } from "../../constants";
 import indexedDBController, { STORES } from "../../indexedDB/indexedDB";
-import databaseDownloader from "../../utils/DatabaseDownloader";
 import { GetDataBaseContext } from "../../App";
+
 function LogIn() {
   const { db } = GetDataBaseContext();
   const [user] = useLocalStorage("user", null);
@@ -121,24 +121,11 @@ function LogIn() {
                   />
                   <label htmlFor="inputPassword">Password</label>
                 </div>
-                <div className="form-check mb-3">
-                  <input
-                    className="form-check-input"
-                    id="inputRememberPassword"
-                    type="checkbox"
-                    value=""
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="inputRememberPassword"
-                  >
-                    Remember Password
-                  </label>
-                </div>
+                
                 <div className="d-flex align-items-center justify-content-between mt-4 mb-0">
-                  <Link className="small" to="/forgotpassword">
+                  <a className="small" to="/forgotpassword" onClick={() => {alert('This feature has not yet been implemented!'); return;}}>
                     Forgot Password?
-                  </Link>
+                  </a>
                   <button onClick={handleSubmit} className="btn btn-primary">
                     Login
                   </button>
