@@ -1,9 +1,6 @@
-import Header from "../../components/Header";
+import { Header } from "../../components";
 import {RiSettings5Line} from 'react-icons/ri'
-import DownloadSection from "./Download/DownloadSection";
-import UploadSection from "./Upload/UploadSection";
-import DeleteSection from "./Delete/DeleteSection";
-
+import { DownloadSection, UploadSection, DeleteSection } from "./components";
 function Settings(props) {
 
     return ( 

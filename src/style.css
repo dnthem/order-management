@@ -94,18 +94,6 @@ button:hover{
   border-color: #000000;
 }
 
-.fade-out {
-  animation: fadeOut 0.75s ease-out; /* animation effect */
-}
-
-@keyframes fadeOut {
-  0% {
-    background-color: #000000; /* initial color */
-    color: white;
-  }
-  100% {
-  }
-}
 
 input[type="date"]
 {

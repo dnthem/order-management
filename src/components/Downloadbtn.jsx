@@ -9,11 +9,11 @@ function DownloadBtn(props) {
     const handleSaveToLocal = async () => {
         let content = undefined;
         if (props.contentFormat === null) {
-            content = JSON.stringify(await props.data());
+            content = JSON.stringify(props.data);
         }
             
         else
-            content= props.contentFormat(await props.data())
+            content= props.contentFormat(props.data)
         const a = document.createElement("a");
         const file = new Blob([content], {type: 'text/plain'});
         a.href = URL.createObjectURL(file);

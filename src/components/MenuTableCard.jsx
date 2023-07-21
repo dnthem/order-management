@@ -1,15 +1,15 @@
 import { useRef } from "react";
-
-
+import { template } from "../assets";
 function MenuTableCard(props) {
     const trRef = useRef();
     const handleOnclick = () => {
+        trRef.current.style.transition = 'background-color 0s ease-in-out';
+        trRef.current.style.backgroundColor = 'black';
 
-        trRef.current.classList.remove('fade-out');
-        trRef.current.classList.add('fade-out');
         setTimeout(() => {
-            trRef.current.classList.remove('fade-out');
-        },1000);
+            trRef.current.style.transition = 'background-color 1s ease-in-out';
+            trRef.current.style.backgroundColor = 'white';
+        },10);
 
         props.select(props.cardID);
     }
@@ -19,7 +19,7 @@ function MenuTableCard(props) {
             data-test-id="menu-table-card"
             ref={trRef}>
             <td style={{verticalAlign:'middle'}}>
-                <img loading="lazy" src={props.Photo !== undefined? URL.createObjectURL(props.Photo):'/template.jpg'} alt="" width={'100vw'} /> 
+                <img loading="lazy" src={props.Photo !== undefined? URL.createObjectURL(props.Photo):template} alt="" width={'100vw'} /> 
                 <span data-test-id="menu-table-card-name">{props.Title}</span>
             </td>
             <td

@@ -48,3 +48,6 @@ async function init() {
 }
 
 window.addEventListener("DOMContentLoaded", init);
+window.onerror = function (msg, url, lineNo, columnNo, error) {
+  alert(`Error: ${msg}\n${url}:${lineNo}:${columnNo}\n${error}`);
+}

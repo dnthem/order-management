@@ -111,22 +111,39 @@ indexedDBController.addData = function (db, store, data) {
  * @returns true if successful otherwise error message
  **/
 indexedDBController.addListDataToStore = function (db, store, data) {
-  return new Promise((res, rej) => {
-    const trans = db.transaction(store, 'readwrite')
+  return new Promise((resolve, reject) => {
+    const trans = db.transaction(store, 'readwrite');
     const objStore = trans.objectStore(store);
+    const addRequests = [];
+
     data.forEach(e => {
       const request = objStore.add(e);
-      request.onsuccess = function (e) {
-        console.log('Added new data to ' + store + ' successful')
-      }
-      request.onerror = function (e) {
-        console.log('Failed to add new data')
-        rej(e.target.error)
-      }
-    })
-    res(true);
+
+      const addPromise = new Promise((res, rej) => {
+        request.onsuccess = function (event) {
+          console.log('Added new data to ' + store + ' successfully');
+          res();
+        };
+
+        request.onerror = function (event) {
+          console.log('Failed to add new data + ', e, ' to ' + store + ' successfully');
+          rej(event.target.error);
+        };
+      });
+
+      addRequests.push(addPromise);
+    });
+
+    Promise.all(addRequests)
+      .then(() => {
+        resolve(true);
+      })
+      .catch(error => {
+        reject(error);
+      });
   });
-}
+};
+
 
 /**
  * Retrieves all records from an object store

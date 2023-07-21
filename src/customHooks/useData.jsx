@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { GetDataBaseContext } from "../App";
 import indexedDBController from "../indexedDB/indexedDB";
-import { fetchAPI, convertToAPI } from "../utils";
+import { fetchAPI, convertToAPI, convertFromAPI } from "../utils";
 import { API_URL } from "../constants";
 
 
@@ -13,7 +13,7 @@ import { API_URL } from "../constants";
  * @returns [data, updateData] - the data from the object store and a function to update the data in the object store
  *
  */
-export function useData({ store, index, keyPath, version = 1, limit = 1 }) {
+function useData({ store, index, keyPath, version = 1, limit = 1 }) {
   const [data, setData] = useState([]);
   const { db } = GetDataBaseContext();
 
@@ -65,6 +65,13 @@ export function useData({ store, index, keyPath, version = 1, limit = 1 }) {
     keyPath = "",
     limit,
   }) {
+
+    // check if there is internet connection
+    if (!navigator.onLine) {
+      alert("No internet connection");
+      return;
+    }
+
     /*
       explaination of the callback function in useData:
       By using the callback form of setData, we ensure that the state is updated correctly, even when multiple updateData calls are made in quick succession.
@@ -77,19 +84,24 @@ export function useData({ store, index, keyPath, version = 1, limit = 1 }) {
           if (indexField === "") {
             throw new Error("indexField cannot be empty");
           }
-          const res = await indexedDBController.addData(db, store, newVal);
-          newVal[indexField] = res;
+
+          var dataFromAPI = await fetchAPI.post(url, convertToAPI({
+            store,
+            data: newVal
+          }));
+
+          var convertedData = convertFromAPI({
+            store,
+            data: dataFromAPI
+          })
+          newVal[indexField] = convertedData[indexField];
+          await indexedDBController.addData(db, store, newVal);
           setData((prevData) => [
             ...prevData,
             newVal,
           ]);
 
-          await fetchAPI.post(url, convertToAPI({
-            store,
-            data: newVal
-          }));
-
-          return res;
+          return newVal[indexField];
 // ---------------------------------------------------------------------------- //
         case "update":
           if (indexField === "") {
@@ -97,20 +109,27 @@ export function useData({ store, index, keyPath, version = 1, limit = 1 }) {
           }
           
           if (data.length === 0) {
-            const res = await indexedDBController.addData(db, store, newVal);
-            newVal[indexField] = res;
+            var newUrl = url + encodeURIComponent(newVal[indexField]);
+
+            var dataFromAPI = await fetchAPI.post(url, convertToAPI({
+              store,
+              data: newVal
+            }));
+  
+            var convertedData = convertFromAPI({
+              store,
+              data: dataFromAPI
+            })
+  
+            await indexedDBController.addData(db, store, convertedData);
             setData((prevData) => [
               ...prevData,
-              newVal,
+              convertedData,
             ]);
-            var newUrl = url + encodeURIComponent(newVal[indexField]);
-            await fetchAPI.post(url, convertToAPI({
-              store,
-              data: newVal 
-            }));
 
             return null;
           }
+
           await indexedDBController.updateARecord(db, store, newVal);
           setData((prevData) =>
             prevData.map((item) =>
@@ -170,3 +189,5 @@ export function useData({ store, index, keyPath, version = 1, limit = 1 }) {
 
   return [data, updateData];
 }
+
+export default useData;

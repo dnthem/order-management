@@ -3,7 +3,7 @@ import ItemCardV2 from "../../components/ItemCard_v2";
 import {GrFormAdd} from 'react-icons/gr';
 import {MdMenuBook} from 'react-icons/md';
 import { dateFormat } from "../../utils";
-import { useData } from "../../customHooks/useData";
+import { useData } from "../../customHooks";
 import { STORES } from "../../indexedDB/indexedDB";
 
 function Menu(props) {

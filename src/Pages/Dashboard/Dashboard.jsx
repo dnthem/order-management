@@ -1,8 +1,6 @@
 import { useState } from "react";
-import CardInfoDB from "../../components/CardInfoDB";
-import Header from "../../components/Header";
-import AreaChart from "./AreaChart";
-import BarChart from "./BarChart";
+import {CardInfoDB, Header, Loader} from "../../components";
+import { AreaChart, BarChart } from "./components";
 import {
   getTotalItemSold,
   getIncomeTrending,
@@ -10,12 +8,11 @@ import {
   dataConverterMenu,
   calculateTotalItems,
 } from "./DataConverter";
-import { BsCurrencyDollar, BsFillBarChartFill } from "react-icons/bs";
-import { RiDashboard3Line } from "react-icons/ri";
-import { useData } from "../../customHooks/useData";
-import Loader from "../../components/Loaders/Loader";
+import { useData } from "../../customHooks";
 import { dateFormat } from "../../utils";
 import { BiTrendingUp, BiTrendingDown } from "react-icons/bi";
+import { BsCurrencyDollar, BsFillBarChartFill } from "react-icons/bs";
+import { RiDashboard3Line } from "react-icons/ri";
 import { STORES } from "../../indexedDB/indexedDB";
 
 function Dashboard(props) {

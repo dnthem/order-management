@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import { fetchAPI } from "../../utils";
+import { fetchAPI, databaseDownloader } from "../../utils";
 import { useState } from "react";
-import Loader from "../../components/Loaders/Loader";
-import useLocalStorage from "../../customHooks/useLocalStorage";
+import {Loader} from "../../components";
+import {useLocalStorage} from "../../customHooks";
 import { API_URL } from "../../constants";
 import indexedDBController, { STORES } from "../../indexedDB/indexedDB";
-import databaseDownloader from "../../utils/DatabaseDownloader";
 import { GetDataBaseContext } from "../../App";
+
 function LogIn() {
   const { db } = GetDataBaseContext();
   const [user] = useLocalStorage("user", null);
@@ -33,7 +33,6 @@ function LogIn() {
 
     await Promise.all(promises);
   };
-  
 
   const fetchAll = async () => {
     const promises = [];
@@ -43,9 +42,7 @@ function LogIn() {
     }
 
     await Promise.all(promises);
-
   };
-  
 
   const handleSubmit = async (e) => {
     try {
@@ -57,14 +54,15 @@ function LogIn() {
         setLoading(false);
         return;
       }
-    
-      const data = await fetchAPI.post(`${API_URL}/login`, { username, password });
+
+      const data = await fetchAPI.post(`${API_URL}/login`, {
+        username,
+        password,
+      });
       if (data.error) {
         setError(data.error);
         alert(data.error);
       } else {
-        
-        
         setLoginInfo({ username: "", password: "" });
         setError("");
         localStorage.setItem("token", data.accessToken);
@@ -72,85 +70,77 @@ function LogIn() {
 
         await deleteAll();
         await fetchAll();
-        setError("")
+        setError("");
         alert("Login Success");
         window.location.href = "/";
       }
     } catch (error) {
-      alert(error.message);
+      alert(error);
     } finally {
       setLoading(false);
     }
   };
 
-  const border = error !== "" ? "form-floating mb-3 border border-danger border-2 rounded" : "form-floating mb-3";
+  const border =
+    error !== ""
+      ? "form-floating mb-3 border border-danger border-2 rounded"
+      : "form-floating mb-3";
 
   return (
     <>
-      {loading && <Loader/>}
+      {loading && <Loader />}
       <div className="row justify-content-center">
-      <div className="col-lg-5">
-        <div className="card shadow-lg border-0 rounded-lg mt-5">
-          <div className="card-header">
-            <h3 className="text-center font-weight-light my-4">Login</h3>
-          </div>
-          <div className="card-body">
-            <form>
-              <div className={border}>
-                <input
-                  className="form-control"
-                  type="email"
-                  placeholder="username"
-                  aria-label="username"
-                  name="username"
-                  value={loginInfo.username}
-                  onChange={handleChange}
-                />
-                <label htmlFor="inputEmail">User Name</label>
+        <div className="col-lg-5">
+          <div className="card shadow-lg border-0 rounded-lg mt-5">
+            <div className="card-header">
+              <h3 className="text-center font-weight-light my-4">Login</h3>
+            </div>
+            <div className="card-body">
+              <form>
+                <div className={border}>
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="username"
+                    aria-label="username"
+                    name="username"
+                    value={loginInfo.username}
+                    onChange={handleChange}
+                  />
+                  <label htmlFor="inputEmail">User Name</label>
+                </div>
+                <div className={border}>
+                  <input
+                    className="form-control"
+                    type="password"
+                    placeholder="Password"
+                    aria-label="Password"
+                    name="password"
+                    value={loginInfo.password}
+                    onChange={handleChange}
+                  />
+                  <label htmlFor="inputPassword">Password</label>
+                </div>
+                
+                <div className="d-flex align-items-center justify-content-between mt-4 mb-0">
+                  <a className="small" to="/forgotpassword" onClick={() => {alert('This feature has not yet been implemented!'); return;}}>
+                    Forgot Password?
+                  </a>
+                  <button onClick={handleSubmit} className="btn btn-primary">
+                    Login
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div className="card-footer text-center py-3">
+              <div className="small">
+                <Link to="/signup">Don't have an account? Sign up!</Link>
               </div>
-              <div className={border}>
-                <input
-                  className="form-control"
-                  type="password"
-                  placeholder="Password"
-                  aria-label="Password"
-                  name="password"
-                  value={loginInfo.password}
-                  onChange={handleChange}
-                />
-                <label htmlFor="inputPassword">Password</label>
-              </div>
-              <div className="form-check mb-3">
-                <input
-                  className="form-check-input"
-                  id="inputRememberPassword"
-                  type="checkbox"
-                  value=""
-                />
-                <label className="form-check-label" htmlFor="inputRememberPassword">
-                  Remember Password
-                </label>
-              </div>
-              <div className="d-flex align-items-center justify-content-between mt-4 mb-0">
-                <Link className="small" to='/forgotpassword'>
-                  Forgot Password?
-                </Link>
-                <button onClick={handleSubmit} className="btn btn-primary">
-                  Login
-                </button>
-              </div>
-            </form>
-          </div>
-          <div className="card-footer text-center py-3">
-            <div className="small">
-              <Link to='/signup'>Don't have an account? Sign up!</Link>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </>
-
   );
 }
 

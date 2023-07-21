@@ -90,7 +90,7 @@ function ItemCardV2(props) {
             
             Prices: $
             
-            <input data-test-id={props.isNew?'new-card-item-price':'item-price'} type='number' inputMode="numeric" disabled={!edit} className="card-title bg-transparent border-0" onFocus={handleOnFocus}  onChange={(e) => setItemPrice(e.target.value)} value={itemPrice} style={{maxWidth: '6ch'}} min={0} max={100}/>
+            <input data-test-id={props.isNew?'new-card-item-price':'item-price'} type='number' inputMode="numeric" disabled={!edit} className="card-title bg-transparent border-0" onFocus={handleOnFocus}  onChange={(e) => setItemPrice(e.target.value)} value={itemPrice} style={{maxWidth: 'auto'}} min={0} max={100}/>
 
         </h6>
 
@@ -104,8 +104,6 @@ function ItemCardV2(props) {
               
             </div>
           </div>
-
-
 
           {
             !edit && 

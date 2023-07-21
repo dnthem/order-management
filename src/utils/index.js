@@ -19,8 +19,10 @@ import {
     convertToAPI,
     convertFromAPI,
 } from './apiDataConverter';
+import databaseDownloader from './DatabaseDownloader';
 // export all utils here
 export {
+    databaseDownloader,
     phoneFormat,
     dateFormat,
     dateToISO,

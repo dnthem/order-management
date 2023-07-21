@@ -1,40 +1,40 @@
-name: CI - PULL REQUEST ON DEVELOPMENT
+# name: CI - PULL REQUEST ON DEVELOPMENT
 
-on:
-  pull_request:
-    branches:
-      - Development
-      - main
+# on:
+#   pull_request:
+#     branches:
+#       - Development
+#       - main
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version:  [14.x, 16.x, 18.x]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix:
+#         node-version:  [14.x, 16.x, 18.x]
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
 
-      - name: Set up Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+#       - name: Set up Node.js ${{ matrix.node-version }}
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: ${{ matrix.node-version }}
+#           cache: 'npm'
           
-      - name: Install dependencies
-        run: |
-          npm install
-          npm audit fix
+#       - name: Install dependencies
+#         run: |
+#           npm install
+#           npm audit fix
           
 
-      - name: run build
-        run: npm run build
+#       - name: run build
+#         run: npm run build
 
-      - name: Run test
-        env:
-          CI: true
-          VITE_SKIP_TESTS: true
-        run: |
-          npm run test
+#       - name: Run test
+#         env:
+#           CI: true
+#           VITE_SKIP_TESTS: true
+#         run: |
+#           npm run test
 

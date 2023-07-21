@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { fetchAPI } from "../../utils";
 import { API_URL } from "../../constants";
 import indexedDBController, { STORES } from "../../indexedDB/indexedDB";
-import Loader from "../../components/Loaders/Loader";
+import { GetDataBaseContext } from "../../App";
 function Signup() {
   const [userInfo, setUserInfo] = useState({
     name: "",
@@ -13,24 +13,20 @@ function Signup() {
     passwordConfirm: "",
   });
   const [loading, setLoading] = useState(false);
-  const { db } = indexedDBController;
+  const { db } = GetDataBaseContext();
 
   const handleChange = (e) => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
   };
 
   const deleteAll = async () => {
-    try {
-      const promises = [];
-  
-      for (const key in STORES) {
-        promises.push(indexedDBController.deleteAllRecord(db, STORES[key].name));
-      }
-  
-      await Promise.all(promises);
-    } catch (error) {
-      alert(error.message);
+    const promises = [];
+
+    for (const key in STORES) {
+      promises.push(indexedDBController.deleteAllRecord(db, STORES[key].name));
     }
+
+    await Promise.all(promises);
   };
 
   const handleSubmit = async (e) => {
