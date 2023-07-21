@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { GetDataBaseContext } from "../../App";
-import DownloadBtn from "../../components/Downloadbtn";
+import DownloadBtn from "../../components/DownloadBtn";
 import Header from "../../components/Header";
 import indexedDBController, { STORES } from "../../indexedDB/indexedDB";
 import {FaHistory} from 'react-icons/fa';

@@ -65,6 +65,13 @@ function useData({ store, index, keyPath, version = 1, limit = 1 }) {
     keyPath = "",
     limit,
   }) {
+
+    // check if there is internet connection
+    if (!navigator.onLine) {
+      alert("No internet connection");
+      return;
+    }
+
     /*
       explaination of the callback function in useData:
       By using the callback form of setData, we ensure that the state is updated correctly, even when multiple updateData calls are made in quick succession.
