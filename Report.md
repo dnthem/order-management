@@ -3,13 +3,13 @@
 ## Date: 07/04/2023
 
 ## Goals:
-- [ ] Call API first, then update local indexedDB
-  - [ ] Use database id as key for each document in indexedDB
-    - [ ] Change all id in indexedDB to database id
-- [ ] Set only one active user at a time:
-  - [ ] When user logs in, set the user as active user
-  - [ ] Store user JWT on cache
-  - [ ] Set JWT expriation time
+- [x] Call API first, then update local indexedDB
+  - [x] Use database id as key for each document in indexedDB
+    - [x] Change all id in indexedDB to database id
+- [x] Set only one active user at a time:
+  - [x] When user logs in, set the user as active user
+  - [x] Store user JWT on cache
+  - [x] Set JWT expriation time
 
 ## Date: 07/03/2023
 

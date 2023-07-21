@@ -4,25 +4,49 @@
 The Order Management System is a simple application that allows you to perform various operations related to orders, products, and customer information. You can create, edit, delete, and view orders, products, and customers. Additionally, the system provides an order history view for a day.
 
 **Table of Contents:**
-1. [Installation](#installation)
-2. [Usage](#usage)
-3. [Features](#features)
-4. [Contributing](#contributing)
-5. [License](#license)
-6. [Contact](#contact)
+- [Order Management System](#order-management-system)
+- [**Overview**](#overview)
+- [**Installation:**](#installation)
+- [**Usage:**](#usage)
+- [**Features:**](#features)
+- [**Contributing:**](#contributing)
+- [**License:**](#license)
+- [**Contact:**](#contact)
 
-**Installation:**
-Follow these steps to set up the Order Management System:
 
+# **Overview**
+
+There are two versions of the Order Management System:
+  1. Order Management System that totally runs on client side (no server required) and uses indexedDB to store data. See [here](https://order-management-app.netlify.app/) for demo
+  2. Order Management System that runs on client side and requires a server to store data in mongoDB. The application requires user to sign up and log in. See [here](https://order-management-api.netlify.app/) for demo
+
+# **Installation:**
+Follow these steps to set up the Order Management System version 1 (no server required):
 1. Clone the repository.
-2. Run `npm install` to install the required dependencies.
-3. CD into the `backend` directory and run `npm install` to install backend dependencies (for backend Branch).
-4. Ensure that you have MongoDB installed and running. In the `backend` directory, run `npm run dev` to start the server (port 3000).
-5. Return to the root directory and run `npm run build` to build the app.
-6. Run `npm run preview` to start the application.
-7. Some environment variables might need to be set up.
+2. Check out `Development` branch.
+3. Run `npm install` to install all dependencies.
+4. Run `npm dev run` to start the application for development
+5. Run `npm build` to build the application for production
 
-**Usage:**
+Follow these steps to set up the Order Management System version 2 (server required):
+1. Clone the repository.
+2. Check out `Backend` branch.
+3. Similar to the first version, run `npm install` to install all dependencies.
+4. Backend - serverside is in different repository. Clone the repository [here](https://github.com/dnthem/order_management_backend)
+5. Clone the repository and follow the instruction to set up the backend server
+6. Set up environment variables in `.env` file
+   ```
+    DEV=true
+    VITE_CI=true
+    VITE_PREVIEW_URL=https://localhost:3000
+    VITE_HEADLESS=false
+    VITE_SKIP_TESTS=false #true
+    VITE_API_URL=http://localhost:3000 
+    VITE_INDEXEDDB_SAMPLE_DATA=false
+    VITE_ORIGIN=http://localhost:5173/
+   ```
+
+# **Usage:**
 1. **Menu Page:** To manage items or products, use the following options:
    - Click on the `Add` button in the top-right corner to create a new item or product.
    - Click `edit` to modify an existing item or product.
@@ -56,16 +80,16 @@ Follow these steps to set up the Order Management System:
    - Revenue chart
    - Top items sold
 
-**Features:**
+# **Features:**
 - Create, edit, delete, and view orders, products, and customers.
 - View order history for a specific day.
 - Generate various statistics, such as total sales and top items sold.
 
-**Contributing:**
+# **Contributing:**
 Contributions to the Order Management System are welcome! If you want to contribute, follow the guidelines specified in the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
-**License:**
+# **License:**
 This project is licensed under the [MIT License](LICENSE).
 
-**Contact:**
+# **Contact:**
 If you have any questions, suggestions, or feedback, feel free to reach out. You can contact me via email at [dnthem@gmail.com](mailto:dnthem@example.com) or through GitHub.
