@@ -1,5 +1,4 @@
-import Header from "../../components/Header";
-import ItemCardV2 from "../../components/ItemCard_v2";
+import { ItemCardV2, Header } from "../../components";
 import {GrFormAdd} from 'react-icons/gr';
 import {MdMenuBook} from 'react-icons/md';
 import { dateFormat } from "../../utils";
