@@ -1,5 +1,5 @@
 import { Header, DownloadBtn } from "../../components";
-import { OrderCard, CompleteOrderList, UserInfoForm, AddToOrderForm} from "./components";
+import { OrderCard, CompleteOrderList, UserInfoForm, AddToOrderForm } from "./components";
 import { AiOutlineShoppingCart, AiOutlinePlusCircle } from "react-icons/ai";
 import { useEffect, useReducer, useState } from "react";
 import { useData } from "../../customHooks";
@@ -327,7 +327,6 @@ function Orders() {
           </div>
           <div
             className="section-content row d-flex justify-content-start px-1 overflow-auto"
-            style={{ height: "100dvh" }}
           >
             {pending
               .map((order, index) => {
@@ -342,7 +341,7 @@ function Orders() {
                   />
                 );
               })
-              .reverse()}
+            }
           </div>
         </div>
       </div>
