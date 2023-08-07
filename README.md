@@ -58,15 +58,14 @@ Follow these steps to set up the Order Management System version 2 (server requi
    - Click `remove` to delete an item or product.
    - You can also hide an item by clicking on the `hide` button, which will remove it from the order page.
 
-2. **Order Page:** To create a new order, follow these steps:
-   - Click on the `Add` button in the top-right corner to create a new order.
-   - Fill in the customer information form and click 'submit' to proceed to the order section.
-   - In the order section, you can add items to the cart, edit item quantities, remove items from the cart, and submit the order.
-
 3. **Main Order Page:** Here, you can:
    - View the current active orders.
    - Edit, complete, or delete orders.
    - View completed orders and the total sales of the day.
+   - **Order Section:** To create a new order, follow these steps:
+     - Click on the `Add` button in the top-right corner to create a new order.
+     - Fill in the customer information form and click 'submit' to proceed to the order section.
+     - In the order section, you can add items to the cart, edit item quantities, remove items from the cart, and submit the order.
 
 4. **Order History Page:** In this section, you can:
    - View the order history of a specific day.
