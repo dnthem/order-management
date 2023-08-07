@@ -7,8 +7,8 @@ The Order Management System is a simple application that allows you to perform v
 - [Order Management System](#order-management-system)
 - [**Overview**](#overview)
 - [**Installation:**](#installation)
-- [**Usage:**](#usage)
 - [**Features:**](#features)
+- [**Usage:**](#usage)
 - [**Contributing:**](#contributing)
 - [**License:**](#license)
 - [**Contact:**](#contact)
@@ -46,6 +46,11 @@ Follow these steps to set up the Order Management System version 2 (server requi
     VITE_ORIGIN=http://localhost:5173/
    ```
 
+# **Features:**
+- Create, edit, delete, and view orders, products, and customers.
+- View order history for a specific day.
+- Generate various statistics, such as total sales and top items sold.
+
 # **Usage:**
 1. **Menu Page:** To manage items or products, use the following options:
    - Click on the `Add` button in the top-right corner to create a new item or product.
@@ -79,11 +84,6 @@ Follow these steps to set up the Order Management System version 2 (server requi
    - Number of items sold
    - Revenue chart
    - Top items sold
-
-# **Features:**
-- Create, edit, delete, and view orders, products, and customers.
-- View order history for a specific day.
-- Generate various statistics, such as total sales and top items sold.
 
 # **Contributing:**
 Contributions to the Order Management System are welcome! If you want to contribute, follow the guidelines specified in the [CONTRIBUTING.md](CONTRIBUTING.md) file.
